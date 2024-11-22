@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">BlackJill</string>
+
+    <string name="rules">
+The goal is to get your cards to 21, but not past. You can either stand if you want to stop before 21 or hit and be dealt a new card. Your will play against the dealer.
+\n\n
+Card Values:
+A = 1 or 11\n
+J, Q, K = 10
+The rest at face value
+    </string>
 </resources>
