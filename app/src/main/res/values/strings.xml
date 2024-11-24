@@ -3,7 +3,9 @@
 
     <string name="rules">
         \n
-The goal is to get your cards to 21, but not past. You can either stand if you want to stop before 21 or hit and be dealt a new card. Your will play against the dealer.
+The goal is to get your cards to 21, but not past. You can either stand if you want to stop
+        before 21 or hit and be dealt a new card. Your will play against the dealer. Charlie-rule
+        applies, meaning, if you have 5 cards on your hand and your total is less than 21, you win.
 \n\n
 Card Values:\n
 A = 1 or 11\n
@@ -16,5 +18,7 @@ The rest at face value
     <string name="multiplayer_name">Muliplayer</string>
     <string name="play">Play</string>
     <string name="stats">Stats</string>
+    <string name="exit_button">Exit</string>
+    <string name="btn_exit"><u>Exit</u></string>
     
 </resources>

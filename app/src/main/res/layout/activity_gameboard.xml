@@ -46,7 +46,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/card_6"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -55,27 +55,37 @@
                 app:srcCompat="@drawable/card_down_o" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/card_7"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
-                android:translationX="40dp"
+                android:translationX="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/card_down_o" />
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/card_8"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
-                android:translationX="80dp"
+                android:translationX="60dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/card_down_o" />
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/card_9"
+                android:layout_width="120dp"
+                android:layout_height="159dp"
+                android:translationX="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/card_down_o" />
+
+            <ImageView
+                android:id="@+id/card_10"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:translationX="120dp"
@@ -131,7 +141,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/card_1"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:layout_marginBottom="4dp"
@@ -141,11 +151,11 @@
                 app:srcCompat="@drawable/card_down_o" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/card_2"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:layout_marginBottom="4dp"
-                android:translationX="40dp"
+                android:translationX="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -153,18 +163,30 @@
 
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/card_3"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:layout_marginBottom="4dp"
-                android:translationX="80dp"
+                android:translationX="60dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/card_down_o" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/card_4"
+                android:layout_width="120dp"
+                android:layout_height="159dp"
+                android:layout_marginBottom="4dp"
+                android:translationX="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/card_down_o" />
+
+
+            <ImageView
+                android:id="@+id/card_5"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:layout_marginBottom="4dp"
@@ -234,6 +256,17 @@
         app:layout_constraintStart_toStartOf="parent">
 
     </Button>
+
+    <TextView
+        android:id="@+id/exit_button"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_exit"
+        android:textColor="@color/white"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
