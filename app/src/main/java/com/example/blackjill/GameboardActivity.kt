@@ -201,6 +201,7 @@ class GameboardActivity : AppCompatActivity() {
                 winnerLoseImg.setImageResource(R.drawable.you_win)
                 winnerLoseImg.visibility = View.VISIBLE
                 standButton.isEnabled = true
+                hitButton.isEnabled = false
                 standButton.setText("Deal")
             }
 
@@ -364,6 +365,7 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.setImageResource(R.drawable.you_lose)
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
+            hitButton.isEnabled = false
             standButton.setText("Deal")
 
         } else {
@@ -377,6 +379,7 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.setImageResource(R.drawable.you_win)
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
+            hitButton.isEnabled = false
             standButton.setText("Deal")
             return
         }
@@ -385,18 +388,21 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.setImageResource(R.drawable.you_lose)
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
+            hitButton.isEnabled = false
             standButton.setText("Deal")
 
         } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.you_win)
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
+            hitButton.isEnabled = false
             standButton.setText("Deal")
 
         } else if (playerScoreResult == dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.push)
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
+            hitButton.isEnabled = false
             standButton.setText("Deal")
         } else {
             return
