@@ -200,6 +200,7 @@ class GameboardActivity : AppCompatActivity() {
         //TODO fragment that shows who won/tie
         standButton = findViewById(R.id.stand_deal_button)
         standButton.setOnClickListener() {
+            updateScore()
 
             if (winnerLoseImg.isVisible) {
                 playAgain()
@@ -211,21 +212,11 @@ class GameboardActivity : AppCompatActivity() {
                 generateCards()
                 hitButton.isEnabled = true
                 updateScore()
-            }
-
-            if (playerScoreResult == 21 && dealerCount == 1) {
-                winnerLoseImg.setImageResource(R.drawable.you_win)
-                winCount++
-                gameCount++
-                GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
-                Log.d(
-                    "!!!",
-                    "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
-                )
-                winnerLoseImg.visibility = View.VISIBLE
-                standButton.isEnabled = true
-                hitButton.isEnabled = false
-                standButton.setText("Deal")
+                checkLosePlayer()
+                checkWinDealer()
+                Log.d("!!!", "1")
+                Log.d("!!!", "Card drawn: ${card6Value}, ${card7Value}")
+                Log.d("!!!", "Updated player score: $playerScoreResult")
             }
 
             val handler = Handler(Looper.getMainLooper())
@@ -233,12 +224,14 @@ class GameboardActivity : AppCompatActivity() {
             handler.postDelayed({
 
                 if (dealerCount == 2 && dealerScoreResult < 18) {
+                    Log.d("!!!", "2")
                     hitButton.isEnabled = false
                     card2.setImageResource(generateCardsFromList[1].cardName)
                     card2Value = generateCardsFromList[1].value
                     card2.visibility = View.VISIBLE
                     updateScore()
                     checkWinDealer()
+                    Log.d("!!!", "2")
                     dealerCount++
 
 
@@ -247,10 +240,12 @@ class GameboardActivity : AppCompatActivity() {
 
             handler.postDelayed({
                 if (dealerCount == 3 && dealerScoreResult < 18) {
+                    Log.d("!!!", "3")
                     card3Value = generateCardsFromList[2].value
                     card3.visibility = View.VISIBLE
                     updateScore()
                     checkWinDealer()
+                    Log.d("!!!", "3")
                     dealerCount++
 
                 }
@@ -259,10 +254,12 @@ class GameboardActivity : AppCompatActivity() {
             handler.postDelayed({
 
                 if (dealerCount == 4 && dealerScoreResult < 18) {
+                    Log.d("!!!", "4")
                     card4Value = generateCardsFromList[3].value
                     card4.visibility = View.VISIBLE
                     updateScore()
-                    checkLosePlayer()
+                    checkWinDealer()
+                    Log.d("!!!", "4")
                     dealerCount++
 
 
@@ -271,10 +268,12 @@ class GameboardActivity : AppCompatActivity() {
 
             handler.postDelayed({
                 if (dealerCount == 5 && dealerScoreResult < 18) {
+                    Log.d("!!!", "5")
                     card5Value = generateCardsFromList[4].value
                     card5.visibility = View.VISIBLE
                     updateScore()
                     checkWinDealer()
+                    Log.d("!!!", "5")
                 }
             }, 7000)
         }
@@ -291,17 +290,28 @@ class GameboardActivity : AppCompatActivity() {
             card1.setImageResource(generateCardsFromList[0].cardName)
             card1.visibility = View.VISIBLE
             card1Value = generateCardsFromList[0].value
+            updateScore()
+            checkWinDealer()
+            checkLosePlayer()
         }, 1000)
 
         handler.postDelayed({
             card2.setImageResource(R.drawable.card_down_o)
             card2.visibility = View.VISIBLE
+            updateScore()
+            checkWinDealer()
+            checkLosePlayer()
         }, 2000)
 
         handler.postDelayed({
             card6.setImageResource(generateCardsFromList[5].cardName)
             card6.visibility = View.VISIBLE
             card6Value = generateCardsFromList[5].value
+            updateScore()
+            checkWinDealer()
+            checkLosePlayer()
+            Log.d("!!!", "Card drawn: ${card6Value}, ${card7Value}")
+            Log.d("!!!", "Updated player score: $playerScoreResult")
         }, 3000)
 
         handler.postDelayed({
@@ -309,6 +319,12 @@ class GameboardActivity : AppCompatActivity() {
             card7.visibility = View.VISIBLE
             card7Value = generateCardsFromList[6].value
             updateScore()
+            checkWinDealer()
+            checkLosePlayer()
+            Log.d("!!!", "Card drawn: ${card6Value}, ${card7Value}")
+            Log.d("!!!", "Updated player score: $playerScoreResult")
+            checkWinDealer()
+            checkLosePlayer()
         }, 4000)
 
 
@@ -382,7 +398,22 @@ class GameboardActivity : AppCompatActivity() {
 
 
     fun checkLosePlayer() {
-        if (playerScoreResult > 21) {
+        if (playerScoreResult == 21 && card6Value + card7Value == 21) {
+            winnerLoseImg.setImageResource(R.drawable.you_win)
+            winCount++
+            gameCount++
+            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+            Log.d(
+                "!!!",
+                "Saving stats6: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+            )
+            winnerLoseImg.visibility = View.VISIBLE
+            standButton.isEnabled = true
+            hitButton.isEnabled = false
+            standButton.setText("Deal")
+        }
+
+       else if (playerScoreResult > 21) {
             winnerLoseImg.setImageResource(R.drawable.you_lose)
             winnerLoseImg.visibility = View.VISIBLE
             lostCount++
@@ -390,7 +421,7 @@ class GameboardActivity : AppCompatActivity() {
             GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
             Log.d(
                 "!!!",
-                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+                "Saving stats1: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
             )
             standButton.isEnabled = true
             hitButton.isEnabled = false
@@ -412,14 +443,13 @@ class GameboardActivity : AppCompatActivity() {
             GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
             Log.d(
                 "!!!",
-                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+                "Saving stats2: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
             )
             hitButton.isEnabled = false
             standButton.setText("Deal")
             return
         }
-
-        if (playerScoreResult < dealerScoreResult && dealerScoreResult > 17) {
+        else if (playerScoreResult < dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.you_lose)
             winnerLoseImg.visibility = View.VISIBLE
             lostCount++
@@ -427,13 +457,13 @@ class GameboardActivity : AppCompatActivity() {
             GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
             Log.d(
                 "!!!",
-                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+                "Saving stats3: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
             )
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
 
-        } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17) {
+        } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17 || dealerCount ==5) {
             winnerLoseImg.setImageResource(R.drawable.you_win)
             winnerLoseImg.visibility = View.VISIBLE
             winCount++
@@ -441,7 +471,7 @@ class GameboardActivity : AppCompatActivity() {
             GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
             Log.d(
                 "!!!",
-                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+                "Saving stats4: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
             )
             standButton.isEnabled = true
             hitButton.isEnabled = false
@@ -454,7 +484,7 @@ class GameboardActivity : AppCompatActivity() {
             GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
             Log.d(
                 "!!!",
-                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+                "Saving stats5: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
             )
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
