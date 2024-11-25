@@ -10,11 +10,11 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="359dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
         app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -46,8 +46,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="359dp"
-        android:layout_height="444dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/back_button_stats"
@@ -57,12 +57,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="445dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/the_stats"
-                android:layout_width="290dp"
-                android:layout_height="421dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
                 android:layout_margin="10dp"
                 android:layout_marginStart="10dp"
                 android:lineSpacingExtra="10sp"
