@@ -12,13 +12,15 @@ A = 1 or 11\n
 J, Q, K = 10\n
 The rest at face value
     </string>
-    
-    
+
+
     <string name="rules_name">Rules</string>
     <string name="multiplayer_name">Muliplayer</string>
     <string name="play">Play</string>
     <string name="stats">Stats</string>
     <string name="exit_button">Exit</string>
     <string name="btn_exit"><u>Exit</u></string>
-    
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

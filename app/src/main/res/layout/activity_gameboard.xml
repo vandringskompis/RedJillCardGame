@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="163dp"
         android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/stand_button"
+        app:layout_constraintBottom_toTopOf="@+id/stand_deal_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
@@ -49,6 +49,7 @@
                 android:id="@+id/card_6"
                 android:layout_width="120dp"
                 android:layout_height="159dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -59,6 +60,7 @@
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:translationX="30dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -148,6 +150,7 @@
                 android:layout_width="120dp"
                 android:layout_height="159dp"
                 android:layout_marginBottom="4dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -159,6 +162,7 @@
                 android:layout_height="159dp"
                 android:layout_marginBottom="4dp"
                 android:translationX="30dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -243,18 +247,18 @@
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/stand_button">
+        app:layout_constraintStart_toEndOf="@+id/stand_deal_button">
 
     </Button>
 
     <Button
-        android:id="@+id/stand_button"
+        android:id="@+id/stand_deal_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
         android:backgroundTint="#8A0D0D"
         android:gravity="center"
-        android:text="Stand"
+        android:text="Deal"
         android:textSize="30sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -273,6 +277,17 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/win_lose_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        app:srcCompat="@drawable/you_win" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

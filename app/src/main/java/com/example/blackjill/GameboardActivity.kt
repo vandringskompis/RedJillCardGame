@@ -1,5 +1,6 @@
 package com.example.blackjill
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -26,8 +27,11 @@ class GameboardActivity : AppCompatActivity() {
     lateinit var card8: ImageView
     lateinit var card9: ImageView
     lateinit var card10: ImageView
+    lateinit var winnerLoseImg: ImageView
     var dealerScoreResult = 0
     var playerScoreResult = 0
+    var hitCounter = 1
+    var dealerCount = 0
     var card1Value = 0
     var card2Value = 0
     var card3Value = 0
@@ -38,10 +42,13 @@ class GameboardActivity : AppCompatActivity() {
     var card8Value = 0
     var card9Value = 0
     var card10Value = 0
+    lateinit var standButton: Button
+    lateinit var hitButton: Button
+
     lateinit var dealerScore: TextView
     lateinit var playerScore: TextView
     lateinit var cardList: List<Cards>
-    lateinit var generateCardsFromList: List<Cards>
+    var generateCardsFromList: List<Cards> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +59,8 @@ class GameboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        winnerLoseImg = findViewById(R.id.win_lose_img)
 
         //List of all my cards
         Cards(R.drawable.card_down_o, 0)
@@ -121,19 +130,16 @@ class GameboardActivity : AppCompatActivity() {
         card9 = findViewById(R.id.card_9)
         card10 = findViewById(R.id.card_10)
 
+        //TextViews that show current value of all visible cards
         playerScore = findViewById(R.id.player_score)
         dealerScore = findViewById(R.id.dealer_score)
 
+
         //TODO if the player get a score of 21 with the first 2 cards,
         // it's Red Jill and the player wins, fix check after generateCards()
-        generateCards()
-
-        var hitCounter = 1
-        updateScore()
 
 
         //Exit button that vill return the user to MainActivity.
-
         //TODO make fragment for exit button "are you sure you want to quit".
         val exitButton = findViewById<TextView>(R.id.exit_button)
         exitButton.setOnClickListener() {
@@ -141,9 +147,11 @@ class GameboardActivity : AppCompatActivity() {
         }
 
         // Hit button, card is dealt.
-        val hitButton = findViewById<Button>(R.id.hit_button)
-        hitButton.setOnClickListener() {
+        hitButton = findViewById(R.id.hit_button)
+        hitButton.isEnabled = false
 
+        hitButton.setOnClickListener() {
+            hitButton.isEnabled = true
 
             when (hitCounter) {
                 1 -> {
@@ -151,17 +159,22 @@ class GameboardActivity : AppCompatActivity() {
                     card8Value = generateCardsFromList[7].value
                     hitCounter++
                     updateScore()
+                    checkLosePlayer()
                 }
+
                 2 -> {
                     card9.visibility = View.VISIBLE
                     card9Value = generateCardsFromList[8].value
                     hitCounter++
                     updateScore()
+                    checkLosePlayer()
                 }
+
                 3 -> {
                     card10.visibility = View.VISIBLE
                     card10Value = generateCardsFromList[9].value
                     updateScore()
+                    checkLosePlayer()
                 }
 
             }
@@ -169,80 +182,127 @@ class GameboardActivity : AppCompatActivity() {
 
         // Stand button, player choose to stop. Dealer's cards will be dealt now.
         //TODO fragment that shows who won/tie
-        val standButton = findViewById<Button>(R.id.stand_button)
+        standButton = findViewById(R.id.stand_deal_button)
         standButton.setOnClickListener() {
-            hitButton.isEnabled = false
+
+            if (winnerLoseImg.isVisible) {
+                playAgain()
+            }
+            dealerCount++
+
+            if (dealerCount == 1) {
+                standButton.setText("Stand")
+                generateCards()
+                hitButton.isEnabled = true
+                updateScore()
+            }
+
+            if (playerScoreResult == 21 && dealerCount == 1) {
+                winnerLoseImg.setImageResource(R.drawable.you_win)
+                winnerLoseImg.visibility = View.VISIBLE
+                standButton.isEnabled = true
+                standButton.setText("Deal")
+            }
+
             val handler = Handler(Looper.getMainLooper())
-            var dealerCount = 0
 
             handler.postDelayed({
-                if (dealerCount == 0 && dealerScoreResult < 18) {
+
+                if (dealerCount == 2 && dealerScoreResult < 18) {
+                    hitButton.isEnabled = false
                     card2.setImageResource(generateCardsFromList[1].cardName)
                     card2Value = generateCardsFromList[1].value
-                    card3.visibility = View.VISIBLE
+                    card2.visibility = View.VISIBLE
                     updateScore()
+                    checkWinDealer()
                     dealerCount++
+
 
                 }
             }, 1000)
 
             handler.postDelayed({
-                if (dealerCount == 1 && dealerScoreResult < 18) {
-                    card3.setImageResource(generateCardsFromList[2].cardName)
+                if (dealerCount == 3 && dealerScoreResult < 18) {
                     card3Value = generateCardsFromList[2].value
-                    card4.visibility = View.VISIBLE
+                    card3.visibility = View.VISIBLE
                     updateScore()
+                    checkWinDealer()
                     dealerCount++
+
+
                 }
             }, 3000)
 
             handler.postDelayed({
 
-                if (dealerCount ==2 && dealerScoreResult < 18) {
-                    card4.setImageResource(generateCardsFromList[3].cardName)
+                if (dealerCount == 4 && dealerScoreResult < 18) {
                     card4Value = generateCardsFromList[3].value
+                    card4.visibility = View.VISIBLE
+                    updateScore()
+                    checkLosePlayer()
+                    dealerCount++
+
+
+                }
+            }, 5000)
+
+
+            handler.postDelayed({
+                if (dealerCount == 5 && dealerScoreResult < 18) {
+                    card5Value = generateCardsFromList[4].value
                     card5.visibility = View.VISIBLE
                     updateScore()
-                    dealerCount++
-                }
-            }, 6000)
+                    checkWinDealer()
 
-
-                if (dealerCount == 3 && dealerScoreResult <18) {
-                    card5.setImageResource(generateCardsFromList[4].cardName)
-                    card5Value = generateCardsFromList[4].value
-                    updateScore()
                 }
+            }, 7000)
         }
 
     }
 
     fun generateCards() {
+
+        val handler = Handler(Looper.getMainLooper())
+
         generateCardsFromList = cardList.shuffled().take(10)
 
-        card1.setImageResource(generateCardsFromList[0].cardName)
-        card1.visibility = View.VISIBLE
-        card1Value = generateCardsFromList[0].value
+        handler.postDelayed({
+            card1.setImageResource(generateCardsFromList[0].cardName)
+            card1.visibility = View.VISIBLE
+            card1Value = generateCardsFromList[0].value
+        }, 1000)
 
-        card6.setImageResource(generateCardsFromList[5].cardName)
-        card6.visibility = View.VISIBLE
-        card6Value = generateCardsFromList[5].value
+        handler.postDelayed({
+            card2.setImageResource(R.drawable.card_down_o)
+            card2.visibility = View.VISIBLE
+        }, 2000)
 
-        card7.setImageResource(generateCardsFromList[6].cardName)
-        card7.visibility = View.VISIBLE
-        card7Value = generateCardsFromList[5].value
+        handler.postDelayed({
+            card6.setImageResource(generateCardsFromList[5].cardName)
+            card6.visibility = View.VISIBLE
+            card6Value = generateCardsFromList[5].value
+        }, 3000)
+
+        handler.postDelayed({
+            card7.setImageResource(generateCardsFromList[6].cardName)
+            card7.visibility = View.VISIBLE
+            card7Value = generateCardsFromList[6].value
+            updateScore()
+        }, 4000)
+
+
+        card3.setImageResource(generateCardsFromList[2].cardName)
+        card4.setImageResource(generateCardsFromList[3].cardName)
+        card5.setImageResource(generateCardsFromList[4].cardName)
 
         card8.setImageResource(generateCardsFromList[7].cardName)
 
-
         card9.setImageResource(generateCardsFromList[8].cardName)
-
 
         card10.setImageResource(generateCardsFromList[9].cardName)
 
 
     }
-
 
     fun updateScore() {
         val dealerCards = listOf(card1Value, card2Value, card3Value, card4Value, card5Value)
@@ -266,5 +326,82 @@ class GameboardActivity : AppCompatActivity() {
         return score
     }
 
+    fun playAgain() {
+        card1.visibility = View.INVISIBLE
+        card2.visibility = View.INVISIBLE
+        card3.visibility = View.INVISIBLE
+        card4.visibility = View.INVISIBLE
+        card5.visibility = View.INVISIBLE
+        card6.visibility = View.INVISIBLE
+        card7.visibility = View.INVISIBLE
+        card8.visibility = View.INVISIBLE
+        card9.visibility = View.INVISIBLE
+        card10.visibility = View.INVISIBLE
+        winnerLoseImg.visibility = View.INVISIBLE
+
+        card1Value = 0
+        card2Value = 0
+        card3Value = 0
+        card4Value = 0
+        card5Value = 0
+        card6Value = 0
+        card7Value = 0
+        card8Value = 0
+        card9Value = 0
+        card10Value = 0
+
+        hitCounter = 1
+        dealerCount = 0
+
+        playerScoreResult = 0
+        dealerScoreResult = 0
+
+        updateScore()
+    }
+
+    fun checkLosePlayer() {
+        if (playerScoreResult > 21) {
+            winnerLoseImg.setImageResource(R.drawable.you_lose)
+            winnerLoseImg.visibility = View.VISIBLE
+            standButton.isEnabled = true
+            standButton.setText("Deal")
+
+        } else {
+            return
+        }
+    }
+
+    fun checkWinDealer() {
+
+        if (dealerScoreResult > 21) {
+            winnerLoseImg.setImageResource(R.drawable.you_win)
+            winnerLoseImg.visibility = View.VISIBLE
+            standButton.isEnabled = true
+            standButton.setText("Deal")
+            return
+        }
+
+        if (playerScoreResult < dealerScoreResult && dealerScoreResult > 17) {
+            winnerLoseImg.setImageResource(R.drawable.you_lose)
+            winnerLoseImg.visibility = View.VISIBLE
+            standButton.isEnabled = true
+            standButton.setText("Deal")
+
+        } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17) {
+            winnerLoseImg.setImageResource(R.drawable.you_win)
+            winnerLoseImg.visibility = View.VISIBLE
+            standButton.isEnabled = true
+            standButton.setText("Deal")
+
+        } else if (playerScoreResult == dealerScoreResult && dealerScoreResult > 17) {
+            winnerLoseImg.setImageResource(R.drawable.push)
+            winnerLoseImg.visibility = View.VISIBLE
+            standButton.isEnabled = true
+            standButton.setText("Deal")
+        } else {
+            return
+        }
+
+    }
 
 }
