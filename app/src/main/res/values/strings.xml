@@ -20,7 +20,13 @@ The rest at face value
     <string name="stats">Stats</string>
     <string name="exit_button">Exit</string>
     <string name="btn_exit"><u>Exit</u></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Stats_text">
+
+        \nTotal games: %1$d
+        \nWon games: %2$d
+        \nLost games: %3$d
+        \nTie games: %4$d
+
+    </string>
 
 </resources>

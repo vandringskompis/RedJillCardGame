@@ -1,5 +1,6 @@
 package com.example.blackjill
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -42,6 +43,12 @@ class GameboardActivity : AppCompatActivity() {
     var card8Value = 0
     var card9Value = 0
     var card10Value = 0
+
+    var gameCount = 0
+    var winCount = 0
+    var lostCount = 0
+    var tieCount = 0
+
     lateinit var standButton: Button
     lateinit var hitButton: Button
 
@@ -199,6 +206,8 @@ class GameboardActivity : AppCompatActivity() {
 
             if (playerScoreResult == 21 && dealerCount == 1) {
                 winnerLoseImg.setImageResource(R.drawable.you_win)
+                winCount++
+                gameCount++
                 winnerLoseImg.visibility = View.VISIBLE
                 standButton.isEnabled = true
                 hitButton.isEnabled = false
@@ -229,7 +238,6 @@ class GameboardActivity : AppCompatActivity() {
                     updateScore()
                     checkWinDealer()
                     dealerCount++
-
 
                 }
             }, 3000)
@@ -360,10 +368,23 @@ class GameboardActivity : AppCompatActivity() {
         updateScore()
     }
 
+    fun saveGameStats(context : Context, gameCount: Int, winCount : Int, lostCount : Int, tieCount: Int) {
+        val sharedPreferences = this.getSharedPreferences("gamesStats", Context.MODE_PRIVATE)
+
+        val editor = sharedPreferences.edit()
+        editor.putInt("GAME_COUNT", gameCount)
+        editor.putInt("WIN_COUNT", winCount)
+        editor.putInt("LOST_COUNT", lostCount)
+        editor.putInt("TIE_COUNT", tieCount)
+        editor.apply()
+    }
+
     fun checkLosePlayer() {
         if (playerScoreResult > 21) {
             winnerLoseImg.setImageResource(R.drawable.you_lose)
             winnerLoseImg.visibility = View.VISIBLE
+            lostCount++
+            gameCount++
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
@@ -379,6 +400,8 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.setImageResource(R.drawable.you_win)
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
+            winCount++
+            gameCount++
             hitButton.isEnabled = false
             standButton.setText("Deal")
             return
@@ -387,6 +410,8 @@ class GameboardActivity : AppCompatActivity() {
         if (playerScoreResult < dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.you_lose)
             winnerLoseImg.visibility = View.VISIBLE
+            lostCount++
+            gameCount++
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
@@ -394,12 +419,16 @@ class GameboardActivity : AppCompatActivity() {
         } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.you_win)
             winnerLoseImg.visibility = View.VISIBLE
+            winCount++
+            gameCount++
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
 
         } else if (playerScoreResult == dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.push)
+            tieCount++
+            gameCount++
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
             hitButton.isEnabled = false
