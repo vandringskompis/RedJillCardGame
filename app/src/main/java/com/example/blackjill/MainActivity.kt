@@ -41,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        stats_button.setOnClickListener(){
+            val intent = Intent(this, StatsActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 

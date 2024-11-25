@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract.CommonDataKinds.Im
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -61,11 +62,19 @@ class GameboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_gameboard)
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val stats = GameStatsHandler.getGameStats(this)
+        gameCount = stats.gameCount
+        winCount = stats.winCount
+        lostCount = stats.lostCount
+        tieCount = stats.tieCount
 
         winnerLoseImg = findViewById(R.id.win_lose_img)
 
@@ -208,6 +217,11 @@ class GameboardActivity : AppCompatActivity() {
                 winnerLoseImg.setImageResource(R.drawable.you_win)
                 winCount++
                 gameCount++
+                GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+                Log.d(
+                    "!!!",
+                    "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+                )
                 winnerLoseImg.visibility = View.VISIBLE
                 standButton.isEnabled = true
                 hitButton.isEnabled = false
@@ -255,14 +269,12 @@ class GameboardActivity : AppCompatActivity() {
                 }
             }, 5000)
 
-
             handler.postDelayed({
                 if (dealerCount == 5 && dealerScoreResult < 18) {
                     card5Value = generateCardsFromList[4].value
                     card5.visibility = View.VISIBLE
                     updateScore()
                     checkWinDealer()
-
                 }
             }, 7000)
         }
@@ -368,16 +380,6 @@ class GameboardActivity : AppCompatActivity() {
         updateScore()
     }
 
-    fun saveGameStats(context : Context, gameCount: Int, winCount : Int, lostCount : Int, tieCount: Int) {
-        val sharedPreferences = this.getSharedPreferences("gamesStats", Context.MODE_PRIVATE)
-
-        val editor = sharedPreferences.edit()
-        editor.putInt("GAME_COUNT", gameCount)
-        editor.putInt("WIN_COUNT", winCount)
-        editor.putInt("LOST_COUNT", lostCount)
-        editor.putInt("TIE_COUNT", tieCount)
-        editor.apply()
-    }
 
     fun checkLosePlayer() {
         if (playerScoreResult > 21) {
@@ -385,6 +387,11 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.visibility = View.VISIBLE
             lostCount++
             gameCount++
+            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+            Log.d(
+                "!!!",
+                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+            )
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
@@ -402,6 +409,11 @@ class GameboardActivity : AppCompatActivity() {
             standButton.isEnabled = true
             winCount++
             gameCount++
+            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+            Log.d(
+                "!!!",
+                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+            )
             hitButton.isEnabled = false
             standButton.setText("Deal")
             return
@@ -412,6 +424,11 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.visibility = View.VISIBLE
             lostCount++
             gameCount++
+            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+            Log.d(
+                "!!!",
+                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+            )
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
@@ -421,6 +438,11 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.visibility = View.VISIBLE
             winCount++
             gameCount++
+            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+            Log.d(
+                "!!!",
+                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+            )
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.setText("Deal")
@@ -429,6 +451,11 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.setImageResource(R.drawable.push)
             tieCount++
             gameCount++
+            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+            Log.d(
+                "!!!",
+                "Saving stats: gameCount=$gameCount, winCount=$winCount, lostCount=$lostCount, tieCount=$tieCount"
+            )
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
             hitButton.isEnabled = false

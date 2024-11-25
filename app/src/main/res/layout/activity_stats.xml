@@ -50,7 +50,7 @@
         android:layout_height="444dp"
         app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/back_button"
+        app:layout_constraintBottom_toTopOf="@+id/back_button_stats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -84,7 +84,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/back_button"
+        android:id="@+id/back_button_stats"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#8A0D0D"
