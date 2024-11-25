@@ -1,11 +1,8 @@
 package com.example.blackjill
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -133,7 +130,6 @@ class GameboardActivity : AppCompatActivity() {
             Cards(R.drawable.king_of_diamonds, 10)
         )
 
-
         //Playing cards. Card 1-5 is dealers. Card 6-10 is players.
         card1 = findViewById(R.id.card_1)
         card2 = findViewById(R.id.card_2)
@@ -150,13 +146,7 @@ class GameboardActivity : AppCompatActivity() {
         playerScore = findViewById(R.id.player_score)
         dealerScore = findViewById(R.id.dealer_score)
 
-
-        //TODO if the player get a score of 21 with the first 2 cards,
-        // it's Red Jill and the player wins, fix check after generateCards()
-
-
-        //Exit button that vill return the user to MainActivity.
-        //TODO make fragment for exit button "are you sure you want to quit".
+        //Exit button that will return the user to MainActivity.
         val exitButton = findViewById<TextView>(R.id.exit_button)
         exitButton.setOnClickListener() {
             finish()
@@ -165,7 +155,6 @@ class GameboardActivity : AppCompatActivity() {
         // Hit button, card is dealt.
         hitButton = findViewById(R.id.hit_button)
         hitButton.isEnabled = false
-
         hitButton.setOnClickListener() {
             hitButton.isEnabled = true
 
@@ -192,12 +181,11 @@ class GameboardActivity : AppCompatActivity() {
                     updateScore()
                    checkWin()
                 }
-
             }
         }
 
         // Stand button, player choose to stop. Dealer's cards will be dealt now.
-        //TODO fragment that shows who won/tie
+        // Is also the dealbutton.
         standButton = findViewById(R.id.stand_deal_button)
         standButton.setOnClickListener() {
             updateScore()
@@ -218,7 +206,6 @@ class GameboardActivity : AppCompatActivity() {
             }
 
             val handler = Handler(Looper.getMainLooper())
-
             handler.postDelayed({
                 standButton.isEnabled = false
                 hitButton.isEnabled = false
@@ -231,8 +218,6 @@ class GameboardActivity : AppCompatActivity() {
                     checkWin()
                     Log.d("!!!", "2")
                     dealerCount++
-
-
                 }
             }, 1000)
 
@@ -245,7 +230,6 @@ class GameboardActivity : AppCompatActivity() {
                     checkWin()
                     Log.d("!!!", "3")
                     dealerCount++
-
                 }
             }, 3000)
 
@@ -259,7 +243,6 @@ class GameboardActivity : AppCompatActivity() {
                     checkWin()
                     Log.d("!!!", "4")
                     dealerCount++
-
 
                 }
             }, 5000)
@@ -275,7 +258,6 @@ class GameboardActivity : AppCompatActivity() {
                 }
             }, 7000)
         }
-
     }
 
     fun generateCards() {
@@ -326,17 +308,12 @@ class GameboardActivity : AppCompatActivity() {
 
         }, 4000)
 
-
         card3.setImageResource(generateCardsFromList[2].cardName)
         card4.setImageResource(generateCardsFromList[3].cardName)
         card5.setImageResource(generateCardsFromList[4].cardName)
-
         card8.setImageResource(generateCardsFromList[7].cardName)
-
         card9.setImageResource(generateCardsFromList[8].cardName)
-
         card10.setImageResource(generateCardsFromList[9].cardName)
-
 
     }
 
@@ -520,7 +497,5 @@ class GameboardActivity : AppCompatActivity() {
         } else {
             return
         }
-
     }
-
 }
