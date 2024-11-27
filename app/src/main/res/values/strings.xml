@@ -13,7 +13,10 @@ J, Q, K = 10\n
 The rest at face value
     </string>
 
-
+    <string name="back_button">Back</string>
+    <string name="hit_button">Hit</string>
+    <string name="stands_button">Stand</string>
+    <string name="deal_button">Deal</string>
     <string name="rules_name">Rules</string>
     <string name="multiplayer_name">Muliplayer</string>
     <string name="play">Play</string>

@@ -126,7 +126,8 @@ class GameboardActivity : AppCompatActivity() {
             dealerCount++
 
             if (dealerCount == 1) {
-                standButton.setText("Stand")
+
+                standButton.text = getText(R.string.stands_button)
                 generateCards()
                 updateScore()
                 checkWin()
@@ -180,7 +181,7 @@ class GameboardActivity : AppCompatActivity() {
     }
 
     /**
-     * Turn of stand and hit button while cards are dealt and then turned on.
+     * Turn off stand and hit button while cards are dealt and then turned on.
      * 10 cards from the card deck will be generated and the first 3(4)
      * cards will be dealt on the table.
      */
@@ -318,7 +319,7 @@ class GameboardActivity : AppCompatActivity() {
             winnerLoseImg.visibility = View.VISIBLE
             standButton.isEnabled = true
             hitButton.isEnabled = false
-            standButton.setText("Deal")
+            standButton.text = getString(R.string.deal_button)
         } else {
             return
         }
@@ -335,7 +336,8 @@ class GameboardActivity : AppCompatActivity() {
         GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
         standButton.isEnabled = true
         hitButton.isEnabled = false
-        standButton.setText("Deal")
+        standButton.text = getString(R.string.deal_button)
+
     }
 
     /**
@@ -349,6 +351,6 @@ class GameboardActivity : AppCompatActivity() {
         GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
         standButton.isEnabled = true
         hitButton.isEnabled = false
-        standButton.setText("Deal")
+        standButton.text = getString(R.string.deal_button)
     }
 }

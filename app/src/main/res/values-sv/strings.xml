@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">BlackJill</string>
+
+    <string name="rules">
+        \n
+        Målet med spelet är att få värdet på dina kort att bli 21, men inte högre. Du kan välja att antingen
+        stanna innan eller på 21, eller dra nytt kort. Du kommer spela mot dealern. Charlieregeln tillämpas, detta betyder att
+        om du har 5 kort på din hand och din total är mindre än 21 så vinner du.
+
+\n\n
+Kortens värden:\n
+Ess = 1 eller 11\n
+J, Q, K = 10\n
+Resten är samma som kortets siffra.
+    </string>
+
+    <string name="rules_name">Regler</string>
+    <string name="multiplayer_name">Muliplayer</string>
+    <string name="play">Spela</string>
+    <string name="stats">Statistik</string>
+    <string name="exit_button">Avsluta</string>
+    <string name="btn_exit"><u>Avsluta</u></string>
+
+    <string name="back_button">Tillbaka</string>
+    <string name="hit_button">Dra</string>
+    <string name="stands_button">Stanna</string>
+    <string name="deal_button">Spela</string>
+
+    <string name="Stats_text">
+
+        \nAntal matcher: %1$d
+        \nAntal vinster: %2$d
+        \nAntal förluster: %3$d
+        \nAntal oavgjorda:  %4$d
+
+    </string>
+
+</resources>
