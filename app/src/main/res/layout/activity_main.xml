@@ -150,7 +150,7 @@
                         android:fontFamily="monospace"
                         android:text="@string/stats"
                         android:textColor="@color/white"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

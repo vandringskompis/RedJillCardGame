@@ -12,6 +12,7 @@ Kortens värden:\n
 Ess = 1 eller 11\n
 J, Q, K = 10\n
 Resten är samma som kortets siffra.
+
     </string>
 
     <string name="rules_name">Regler</string>
