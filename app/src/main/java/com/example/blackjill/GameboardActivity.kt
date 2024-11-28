@@ -22,7 +22,6 @@ class GameboardActivity : AppCompatActivity() {
     var playerScoreResult = 0
     var hitCounter = 1
     var dealerCount = 0
-
     var cardValues = MutableList(10) { 0 }
 
     var gameCount = 0
@@ -32,7 +31,6 @@ class GameboardActivity : AppCompatActivity() {
 
     lateinit var standButton: Button
     lateinit var hitButton: Button
-
     lateinit var dealerScore: TextView
     lateinit var playerScore: TextView
     var generateCardsFromList: List<Cards> = emptyList()
@@ -46,13 +44,14 @@ class GameboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        // GameStatsHandler keeps memory of the stats.
         val stats = GameStatsHandler.getGameStats(this)
         gameCount = stats.gameCount
         winCount = stats.winCount
         lostCount = stats.lostCount
         tieCount = stats.tieCount
 
+        //ImageView that show up to announce the winner/tie.
         winnerLoseImg = findViewById(R.id.win_lose_img)
 
         //Backside of card.
@@ -108,6 +107,7 @@ class GameboardActivity : AppCompatActivity() {
                 3 -> {
                     cards[9].visibility = View.VISIBLE
                     cardValues[9] = generateCardsFromList[9].value
+                    hitCounter++
                     updateScore()
                     checkWin()
                 }
@@ -224,7 +224,12 @@ class GameboardActivity : AppCompatActivity() {
             updateScore()
             checkWin()
             standButton.isEnabled = true
-            hitButton.isEnabled = true
+
+            if (winnerLoseImg.isVisible) {
+                hitButton.isEnabled = false
+            } else {
+                hitButton.isEnabled = true
+            }
 
         }, 4000)
 
@@ -257,14 +262,14 @@ class GameboardActivity : AppCompatActivity() {
      *  Calculate the score and might recalculate ace's value
      */
     fun calculateScore(cards: List<Int>): Int {
-        var score = cards.sum()
-        var aces = cards.count { it == 11 }
+        var scoreTotal = cards.sum()
+        var acesCount = cards.count { it == 11 }
 
-        while (score > 21 && aces > 0) {
-            score -= 10
-            aces -= 1
+        while (scoreTotal > 21 && acesCount > 0) {
+            scoreTotal -= 10
+            acesCount -= 1
         }
-        return score
+        return scoreTotal
     }
 
     /**
@@ -298,6 +303,10 @@ class GameboardActivity : AppCompatActivity() {
 
             winning()
 
+            //Charlie-rule
+        } else if (hitCounter == 4 && playerScoreResult < 21) {
+            winning()
+
         } else if (playerScoreResult > 21) {
             loosing()
 
@@ -308,7 +317,7 @@ class GameboardActivity : AppCompatActivity() {
 
             loosing()
 
-        } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17 || dealerCount == 5) {
+        } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17) {
             winning()
 
         } else if (playerScoreResult == dealerScoreResult && dealerScoreResult > 17) {
