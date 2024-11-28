@@ -46,6 +46,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        multiplayer_button.setOnClickListener(){
+            val intent = Intent(this, MultiplayerGameboardActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 

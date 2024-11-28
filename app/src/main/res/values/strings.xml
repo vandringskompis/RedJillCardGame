@@ -31,5 +31,7 @@ The rest at face value
         \nTie games: %4$d
 
     </string>
+    <string name="player1_turn">Player 1\'s turn</string>
+    <string name="player2_turn">Player 2\'s turn</string>
 
 </resources>

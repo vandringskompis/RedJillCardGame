@@ -35,5 +35,7 @@ Resten är samma som kortets siffra.
         \nAntal oavgjorda:  %4$d
 
     </string>
+    <string name="player1_turn">Spelare 1s tur</string>
+    <string name="player2_turn">Spelare 2s tur</string>
 
 </resources>
