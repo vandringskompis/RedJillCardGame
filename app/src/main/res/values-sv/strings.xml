@@ -16,7 +16,7 @@ Resten är samma som kortets siffra.
     </string>
 
     <string name="rules_name">Regler</string>
-    <string name="multiplayer_name">Muliplayer</string>
+    <string name="multiplayer_name">Dubbel</string>
     <string name="play">Spela</string>
     <string name="stats">Statistik</string>
     <string name="exit_button">Avsluta</string>
@@ -29,10 +29,19 @@ Resten är samma som kortets siffra.
 
     <string name="Stats_text">
 
+        \n Singelmatch
+        \n
         \nAntal matcher: %1$d
         \nAntal vinster: %2$d
         \nAntal förluster: %3$d
         \nAntal oavgjorda:  %4$d
+        \n
+        \nDubbelmatch
+        \n
+        \nAntal matcher: %5$d
+        \nAntal vinster:  %6$d
+        \nAntal förluster:  %7$d
+        \nAntal oavgjorda:  %8$d
 
     </string>
     <string name="player1_turn">Spelare 1s tur</string>

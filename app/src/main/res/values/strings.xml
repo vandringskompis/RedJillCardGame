@@ -25,10 +25,19 @@ The rest at face value
     <string name="btn_exit"><u>Exit</u></string>
     <string name="Stats_text">
 
+        \n Single player
+        \n
         \nTotal games: %1$d
         \nWon games: %2$d
         \nLost games: %3$d
         \nTie games: %4$d
+        \n
+        \nMultiplayer
+        \n
+        \nTotal games: %5$d
+        \nWon games: %6$d
+        \nLost games: %7$d
+        \nTie games: %8$d
 
     </string>
     <string name="player1_turn">Player 1\'s turn</string>

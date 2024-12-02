@@ -113,7 +113,6 @@ class GameboardActivity : AppCompatActivity() {
                 }
             }
         }
-
         // Stand button, player choose to stop. Dealer's cards will be dealt now.
         // Is also the dealbutton.
         standButton = findViewById(R.id.stand_deal_button)
@@ -179,7 +178,6 @@ class GameboardActivity : AppCompatActivity() {
             }, 7000)
         }
     }
-
     /**
      * Turn off stand and hit button while cards are dealt and then turned on.
      * 10 cards from the card deck will be generated and the first 3(4)
@@ -239,7 +237,6 @@ class GameboardActivity : AppCompatActivity() {
         cards[7].setImageResource(generateCardsFromList[7].cardName)
         cards[8].setImageResource(generateCardsFromList[8].cardName)
         cards[9].setImageResource(generateCardsFromList[9].cardName)
-
     }
 
     /**
@@ -257,7 +254,6 @@ class GameboardActivity : AppCompatActivity() {
         playerScoreResult = calculateScore(playerCards)
         playerScore.text = playerScoreResult.toString()
     }
-
     /**
      *  Calculate the score and might recalculate ace's value
      */
@@ -271,7 +267,6 @@ class GameboardActivity : AppCompatActivity() {
         }
         return scoreTotal
     }
-
     /**
      * Reset the game board
      */
@@ -293,14 +288,12 @@ class GameboardActivity : AppCompatActivity() {
         dealerScoreResult = 0
         updateScore()
     }
-
     /**
      * All combinations to win, lose or tie.
      */
     fun checkWin() {
 
         if (playerScoreResult == 21 && cardValues[5] + cardValues[6] == 21) {
-
             winning()
 
             //Charlie-rule
@@ -333,7 +326,6 @@ class GameboardActivity : AppCompatActivity() {
             return
         }
     }
-
     /**
      * What happens if checkWin() finds a winning game..
      */
@@ -348,7 +340,6 @@ class GameboardActivity : AppCompatActivity() {
         standButton.text = getString(R.string.deal_button)
 
     }
-
     /**
      * What happens if checkWin() finds a loosing game.
      */

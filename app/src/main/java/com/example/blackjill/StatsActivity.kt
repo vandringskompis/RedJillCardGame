@@ -28,10 +28,16 @@ class StatsActivity : AppCompatActivity() {
         val lostCount = stats.lostCount
         val tieCount = stats.tieCount
 
-        val updateStatsText = getString(R.string.Stats_text, gameCount, winCount, lostCount, tieCount)
+        val multiStats = GameStatsHandler.getMultiGameStats(this)
+
+        val multiGameCount = multiStats.multiGameCount
+        val multiWinCount = multiStats.multiWinCount
+        val multiLostCount = multiStats.multiLostCount
+        val multiTieCount = multiStats.multiTieCount
+
+        val updateStatsText = getString(R.string.Stats_text, gameCount, winCount, lostCount, tieCount, multiGameCount, multiWinCount, multiLostCount, multiTieCount)
 
         findViewById<TextView>(R.id.the_stats).text = updateStatsText
-
 
         val backButton = findViewById<Button>(R.id.back_button_stats)
 

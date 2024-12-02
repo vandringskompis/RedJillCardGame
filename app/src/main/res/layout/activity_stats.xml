@@ -65,7 +65,7 @@
                 android:layout_height="300dp"
                 android:layout_margin="10dp"
                 android:layout_marginStart="10dp"
-                android:lineSpacingExtra="10sp"
+                android:lineSpacingExtra="1sp"
                 android:text="@string/Stats_text"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"

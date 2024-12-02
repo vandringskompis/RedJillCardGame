@@ -12,7 +12,7 @@
     <FrameLayout
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="163dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +110,7 @@
     <FrameLayout
         android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
-        android:layout_height="163dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
 
         app:layout_constraintBottom_toTopOf="@+id/players_turn_cardview"
@@ -220,7 +220,7 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="163dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout3"
         app:layout_constraintEnd_toEndOf="parent"
