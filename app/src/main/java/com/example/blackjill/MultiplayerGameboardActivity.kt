@@ -119,9 +119,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         hitButton = findViewById(R.id.hit_button)
         hitButton.isEnabled = false
 
-
-        currentPlayer = player1
-
         hitButton.setOnClickListener() {
 
             hitCounter++
@@ -155,6 +152,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 3 -> {
                     cards[9].visibility = View.VISIBLE
                     cardValues[9] = generateCardsFromList[9].value
+                    player1.hitCounter = 3
                     updateScore()
                     checkWin()
                     Log.d(
@@ -185,6 +183,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 6 -> {
                     cards[14].visibility = View.VISIBLE
                     cardValues[14] = generateCardsFromList[14].value
+                    player2.hitCounter = 6
 
                     updateScore()
                     checkWin()
@@ -202,47 +201,77 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         standButton.setOnClickListener() {
             updateScore()
 
-            if (dealer.hitCounter == 0) {
+            Log.d(
+                "!!!",
+                "1 dealerCount =  ${dealer.hitCounter}"
+            )
+            if (winnerLoseImgPlayer2.isVisible && winnerLoseImgPlayer1.isVisible) {
+                Log.d(
+                    "!!!",
+                    "8 if IMG is visible for both players player1 ${player1.hitCounter} player2 ${player2.hitCounter}  "
+                )
+                Log.d(
+                    "!!!",
+                    "4 dealerCount =  ${dealer.hitCounter}"
+                )
+                playAgain()
+            }
 
+            if (dealer.hitCounter == 0) {
+                Log.d(
+                    "!!!",
+                    "2 dealerCount =  ${dealer.hitCounter}"
+                )
                 generateCards()
                 updateScore()
                 checkWin()
                 Log.d("!!!", "7  lets start ${player1.hitCounter} ${player2.hitCounter} ")
                 dealer.hitCounter++
                 standButton.text = getText(R.string.stands_button)
-            }
-
-            if (winnerLoseImgPlayer2.isVisible && winnerLoseImgPlayer1.isVisible) {
                 Log.d(
                     "!!!",
-                    "8 if IMG is visible for both players player1 ${player1.hitCounter} player2 ${player2.hitCounter}  "
+                    "3 dealerCount =  ${dealer.hitCounter}"
                 )
-                playAgain()
             }
+
 
 
             if (player1.scoreResult > 1 && dealer.hitCounter > 1 && !winnerLoseImgPlayer2.isVisible && winnerLoseImgPlayer1.isVisible) {
+                Log.d(
+                    "!!!",
+                    "4 dealerCount =  ${dealer.hitCounter}"
+                )
                 dealerPlays()
 
 
-
-            } else if (player1.scoreResult > 1 && dealer.hitCounter > 1 && !winnerLoseImgPlayer2.isVisible && !winnerLoseImgPlayer1.isVisible) {
+            } else if (player1.scoreResult > 1 && dealer.hitCounter > 2 && !winnerLoseImgPlayer2.isVisible && !winnerLoseImgPlayer1.isVisible) {
+                Log.d(
+                    "!!!",
+                    "5 dealerCount =  ${dealer.hitCounter}"
+                )
                 dealerPlays()
 
 
             } else if (player1.scoreResult > 1 && dealer.hitCounter > 1 && winnerLoseImgPlayer2.isVisible) {
+                Log.d(
+                    "!!!",
+                    "6 dealerCount =  ${dealer.hitCounter}"
+                )
                 dealerPlays()
 
 
-            } else if (player1.scoreResult > 1 && dealer.hitCounter == 1 && !winnerLoseImgPlayer2.isVisible) {
+            } else if (player1.scoreResult > 1 && dealer.hitCounter == 2 && !winnerLoseImgPlayer2.isVisible) {
+                Log.d(
+                    "!!!",
+                    "7 dealerCount =  ${dealer.hitCounter}"
+                )
                 playersTurnTextView.text = getText(R.string.player2_turn)
                 hitCounter = 3
                 dealer.hitCounter++
                 Log.d("!!!", "14 switch players ")
-
                 Log.d(
                     "!!!",
-                    "9  dealer plays player1${player1.hitCounter} player2${player2.hitCounter}  "
+                    "70 dealerplays()=  ${dealer.hitCounter}"
                 )
 
             }
@@ -260,6 +289,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         hitButton.isEnabled = false
         val handler = Handler(Looper.getMainLooper())
 
+        Log.d(
+            "!!!",
+            " 10 dealerCount =  ${dealer.hitCounter}"
+        )
         generateCardsFromList = CardDeck.cardList.shuffled().take(15)
 
         handler.postDelayed({
@@ -287,7 +320,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 cards[5].visibility = View.VISIBLE
                 cardValues[5] = generateCardsFromList[5].value
                 updateScore()
-                checkWin()
             }
         }, 3000)
 
@@ -307,7 +339,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 cards[10].visibility = View.VISIBLE
                 cardValues[10] = generateCardsFromList[10].value
                 updateScore()
-                checkWin()
+
             }
         }, 5000)
 
@@ -319,15 +351,30 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 updateScore()
                 checkWin()
                 standButton.isEnabled = true
+                dealer.hitCounter++
+
+                Log.d(
+                    "!!!",
+                    "11 dealerCount =  ${dealer.hitCounter}"
+                )
 
                 if (winnerLoseImgPlayer1.isVisible) {
                     playersTurnTextView.text = getText(R.string.player2_turn)
-                    player2.hitCounter++
+                    hitCounter = 3
                 }
                 hitButton.isEnabled = true
 
                 playersTurnCardview.visibility = View.VISIBLE
                 playersTurnTextView.visibility = View.VISIBLE
+                Log.d(
+                    "!!!",
+                    "12 dealerCount =  ${dealer.hitCounter}"
+                )
+                Log.d(
+                    "!!!",
+                    "New scores for player 1 = ${player1.scoreResult} and player 2 = ${player2.scoreResult}"
+                )
+
             }
         }, 6000)
 
@@ -344,8 +391,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         cards[13].setImageResource(generateCardsFromList[13].cardName)
         cards[14].setImageResource(generateCardsFromList[14].cardName)
 
-        Log.d("!!!", "Hello ${generateCardsFromList[14].cardName}")
-        Log.d("UpdateScore", "cardValues size: ${cardValues.size}")
+
     }
 
     /**
@@ -356,7 +402,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             listOf(cardValues[0], cardValues[1], cardValues[2], cardValues[3], cardValues[4])
         val player1Cards =
             listOf(cardValues[5], cardValues[6], cardValues[7], cardValues[8], cardValues[9])
-        Log.d("UpdateScore", "cardValues size: ${cardValues.size}")
         val player2Cards =
             listOf(
                 cardValues[10],
@@ -365,7 +410,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 cardValues[13],
                 cardValues[14]
             )
-        Log.d("UpdateScore", "cardValues size: ${cardValues.size}")
+        Log.d(
+            "!!!",
+            "New scores for player 1 = ${player1.scoreResult} and player 2 = ${player2.scoreResult}"
+        )
 
         dealer.scoreResult = calculateScore(dealerCards)
         dealerScoreTextView.text = dealer.scoreResult.toString()
@@ -375,10 +423,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         player2.scoreResult = calculateScore(player2Cards)
         player2ScoreTextView.text = player2.scoreResult.toString()
-        Log.d(
-            "!!!",
-            "Update Score ${player1.hitCounter} ${player2.hitCounter} $winCount $lostCount $gameCount "
-        )
+
     }
 
     /**
@@ -420,9 +465,17 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         dealer.scoreResult = 0
         updateScore()
 
+
+
         playersTurnTextView.setText(R.string.player1_turn)
 
         Log.d("!!!", "PLay again runs")
+
+        Log.d(
+            "!!!",
+            "20 dealerCount =  ${dealer.hitCounter}"
+        )
+        // generateCards()
     }
 
     /**
@@ -434,69 +487,78 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
             redJill(player1)
 
-            Log.d("!!!", "check win 1")
+            Log.d("!!!", "check win 1 and dealerCount = ${dealer.hitCounter}")
 
         }
         if (player2.scoreResult == 21 && cardValues[10] + cardValues[11] == 21) {
 
             redJill(player2)
-            Log.d("!!!", "check win 2")
+            Log.d("!!!", "check win 2 and dealerCount = ${dealer.hitCounter}")
 
             //Charlie-rule
         }
         if (player1.hitCounter == 3 && player1.scoreResult < 21) {
             winning(player1)
-            Log.d("!!!", "check win 3")
+            Log.d("!!!", "check win 3 and dealerCount = ${dealer.hitCounter}")
 
         }
         if (player2.hitCounter == 6 && player2.scoreResult < 21) {
             winning(player2)
-            Log.d("!!!", "check win 4")
+            Log.d("!!!", "check win 4 and dealerCount = ${dealer.hitCounter}")
 
         }
         if (player1.scoreResult > 21) {
             loosing(player1)
-            Log.d("!!!", "check win 5")
+            Log.d("!!!", "check win 5 and dealerCount = ${dealer.hitCounter}")
         }
         if (player2.scoreResult > 21) {
             loosing(player2)
-            Log.d("!!!", "check win 6")
+            Log.d("!!!", "check win 6 and dealerCount = ${dealer.hitCounter}")
         }
         if (dealer.scoreResult > 21) {
-            loosing(dealer)
-            Log.d("!!!", "check win 7")
+
+
+            if (player1.scoreResult < 22) {
+                winning(player1)
+            }
+            if (player2.scoreResult < 22) {
+                winning(player2)
+            }
+            Log.d("!!!", "check win 7 and dealerCount = ${dealer.hitCounter}")
+            gameOver()
+            return
         }
-        if (player1.scoreResult < dealer.scoreResult && dealer.scoreResult > 17 && dealer.scoreResult < 21) {
-            Log.d("!!!", "check win 8")
+        if (player1.scoreResult < dealer.scoreResult && dealer.scoreResult > 17 && dealer.scoreResult < 22) {
+            Log.d("!!!", "check win 8 and dealerCount = ${dealer.hitCounter}")
             loosing(player1)
         }
-        if (player2.scoreResult < dealer.scoreResult && dealer.scoreResult > 17&& dealer.scoreResult < 21){
-            Log.d("!!!", "check win 9")
+        if (player2.scoreResult < dealer.scoreResult && dealer.scoreResult > 17 && dealer.scoreResult < 22) {
+            Log.d("!!!", "check win 9 and dealerCount = ${dealer.hitCounter}")
             loosing(player2)
 
         }
         if (player1.scoreResult > dealer.scoreResult && dealer.scoreResult > 17 && player1.scoreResult < 22) {
 
-            Log.d("!!!", "check win 10")
+            Log.d("!!!", "check win 10 and dealerCount = ${dealer.hitCounter}")
             winning(player1)
 
         }
         if (player2.scoreResult > dealer.scoreResult && dealer.scoreResult > 17 && player2.scoreResult < 22) {
 
-            Log.d("!!!", "check win 20")
+            Log.d("!!!", "check win 20 and dealerCount = ${dealer.hitCounter}")
             winning(player2)
 
         }
         if (player1.scoreResult == dealer.scoreResult && dealer.scoreResult > 17) {
-            Log.d("!!!", "check win 11")
+            Log.d("!!!", "check win 11 and dealerCount = ${dealer.hitCounter}")
             tie(player1)
         }
         if (player2.scoreResult == dealer.scoreResult && dealer.scoreResult > 17) {
-            Log.d("!!!", "check win 12")
+            Log.d("!!!", "check win 12 and dealerCount = ${dealer.hitCounter}")
             tie(player2)
 
         } else {
-            Log.d("!!!", "check win 13")
+            Log.d("!!!", "check win 13 and dealerCount = ${dealer.hitCounter}")
             return
         }
     }
@@ -506,18 +568,26 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
      */
 
     fun redJill(player: Player) {
+
         if (player == player1) {
-            playersTurnTextView.text = getText(R.string.player2_turn)
-            winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer1.visibility = View.VISIBLE
-            hitCounter = 3
-            winCount++
 
+            if (winnerLoseImgPlayer1.isVisible) {
+                return
+            } else {
+                playersTurnTextView.text = getText(R.string.player2_turn)
+                winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
+                winnerLoseImgPlayer1.visibility = View.VISIBLE
+                hitCounter = 3
+                winCount++
+            }
         } else if (player == player2) {
-
-            winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer2.visibility = View.VISIBLE
-            winCount++
+            if (winnerLoseImgPlayer2.isVisible) {
+                return
+            } else {
+                winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
+                winnerLoseImgPlayer2.visibility = View.VISIBLE
+                winCount++
+            }
         }
 
         gameOver()
@@ -529,23 +599,28 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             if (winnerLoseImgPlayer1.isVisible) {
                 return
             }
-            playersTurnTextView.text = getText(R.string.player2_turn)
-            hitCounter = 3
-            winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer1.visibility = View.VISIBLE
-
-            winCount++
-
+            if (winnerLoseImgPlayer2.isVisible) {
+                winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
+                winnerLoseImgPlayer1.visibility = View.VISIBLE
+                winCount++
+                gameOver()
+            } else {
+                playersTurnTextView.text = getText(R.string.player2_turn)
+                hitCounter = 3
+                winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
+                winnerLoseImgPlayer1.visibility = View.VISIBLE
+                winCount++
+            }
         } else if (player == player2) {
 
-            winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer2.visibility = View.VISIBLE
-            winCount++
+            if (winnerLoseImgPlayer2.isVisible) {
+                return
+            } else {
 
-        }
-
-        if (player1.scoreResult > 1 && winnerLoseImgPlayer2.isVisible) {
-            gameOver()
+                winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
+                winnerLoseImgPlayer2.visibility = View.VISIBLE
+                winCount++
+            }
         }
         gameOver()
     }
@@ -561,6 +636,12 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             playersTurnTextView.visibility = View.INVISIBLE
             playersTurnCardview.visibility = View.INVISIBLE
             dealer.hitCounter = 0
+
+
+            Log.d(
+                "!!!",
+                " 30 dealerCount =  ${dealer.hitCounter}"
+            )
         }
 
     }
@@ -568,14 +649,21 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     fun tie(player: Player) {
 
         if (player == player1) {
-            winnerLoseImgPlayer1.setImageResource(R.drawable.push)
-            winnerLoseImgPlayer1.visibility = View.VISIBLE
+            if (winnerLoseImgPlayer1.isVisible) {
+                return
+            } else {
+                winnerLoseImgPlayer1.setImageResource(R.drawable.push)
+                winnerLoseImgPlayer1.visibility = View.VISIBLE
+            }
         }
         if (player == player2) {
+            if (winnerLoseImgPlayer2.isVisible) {
+                return
+            } else {
 
-            winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer2.visibility = View.VISIBLE
-
+                winnerLoseImgPlayer2.setImageResource(R.drawable.push)
+                winnerLoseImgPlayer2.visibility = View.VISIBLE
+            }
         }
 
         tieCount++
@@ -593,7 +681,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         if (player == player1) {
 
             if (winnerLoseImgPlayer1.isVisible) {
-                Log.d("!!!", "check win 5 done")
+                Log.d("!!!", "check win 5 done and dealerCount = ${dealer.hitCounter}")
                 return
             } else {
                 winnerLoseImgPlayer1.setImageResource(R.drawable.you_lose)
@@ -601,33 +689,26 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 playersTurnTextView.text = getText(R.string.player2_turn)
                 hitCounter = 3
                 lostCount++
-                Log.d("!!!", "check win 5 done 2")
+                Log.d("!!!", "check win 5 done 2 and dealerCount = ${dealer.hitCounter}")
                 gameOver()
 
             }
 
         } else if (player == player2) {
 
-            winnerLoseImgPlayer2.setImageResource(R.drawable.you_lose)
-            winnerLoseImgPlayer2.visibility = View.VISIBLE
-            lostCount++
-            if (dealer.hitCounter > 1) {
+            if (winnerLoseImgPlayer2.isVisible) {
+                return
+            } else {
+
+                winnerLoseImgPlayer2.setImageResource(R.drawable.you_lose)
+                winnerLoseImgPlayer2.visibility = View.VISIBLE
+                lostCount++
+                gameOver()
+            }
+            if (dealer.hitCounter > 0) {
                 dealerPlays()
             }
-        } else if (player == dealer) {
-            winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer1.visibility = View.VISIBLE
-
-            winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
-            winnerLoseImgPlayer2.visibility = View.VISIBLE
-            gameOver()
-
-
         }
-        if (player1.scoreResult > 1 && winnerLoseImgPlayer2.isVisible) {
-            gameOver()
-        }
-        gameOver()
     }
 
 
@@ -635,6 +716,12 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         dealer.hitCounter = 3
 
         val handler = Handler(Looper.getMainLooper())
+
+        if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
+            Log.d("!!!", "RETURN RETURN")
+            return
+
+        }
         handler.postDelayed({
 
             standButton.isEnabled = false
@@ -647,9 +734,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 checkWin()
                 gameOver()
                 dealer.hitCounter++
+
                 Log.d(
                     "!!!",
-                    "10 player1${player1.hitCounter} player2${player2.hitCounter}  "
+                    "40 dealerCount in dealerplays()=  ${dealer.hitCounter}"
                 )
             }
         }, 1000)
@@ -657,13 +745,27 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         handler.postDelayed({
             runOnUiThread {
                 if (dealer.hitCounter == 4 && dealer.scoreResult < 18) {
+                    Log.d(
+                        "!!!",
+                        "41-1 dealerCount in dealerplays()=  ${dealer.hitCounter}"
+                    )
+
                     cardValues[2] = generateCardsFromList[2].value
                     cards[2].visibility = View.VISIBLE
                     updateScore()
                     checkWin()
                     gameOver()
+                    Log.d(
+                        "!!!",
+                        "41-2 dealerCount in dealerplays()=  ${dealer.hitCounter}"
+                    )
                     dealer.hitCounter++
+
                     Log.d("!!!", "11 dealer plays ")
+                    Log.d(
+                        "!!!",
+                        "41-3 dealerCount in dealerplays()=  ${dealer.hitCounter}"
+                    )
                 }
             }
         }, 3000)
@@ -679,6 +781,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     gameOver()
                     dealer.hitCounter++
                     Log.d("!!!", "12 dealer plays ")
+                    Log.d(
+                        "!!!",
+                        "42 dealerCount in dealerplays()=  ${dealer.hitCounter}"
+                    )
 
                 }
             }
@@ -693,6 +799,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     checkWin()
                     gameOver()
                     Log.d("!!!", "13 dealer plays ")
+                    Log.d(
+                        "!!!",
+                        "43 dealerCount in dealerplays()=  ${dealer.hitCounter}"
+                    )
                 }
                 gameOver()
             }
