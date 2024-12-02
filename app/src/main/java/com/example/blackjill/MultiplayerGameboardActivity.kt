@@ -210,11 +210,18 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         multiGameCount++
         val handler = Handler(Looper.getMainLooper())
 
+
+
+
         generateCardsFromList = CardDeck.cardList.shuffled().take(15)
 
+        var cardIndex = listOf(0, 2, 3, 4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+
+        for (index in cardIndex){
+            cards[index].setImageResource(generateCardsFromList[index].cardName)
+        }
         handler.postDelayed({
             runOnUiThread {
-                cards[0].setImageResource(generateCardsFromList[0].cardName)
                 cards[0].visibility = View.VISIBLE
                 cardValues[0] = generateCardsFromList[0].value
                 updateScore()
@@ -233,7 +240,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         handler.postDelayed({
             runOnUiThread {
-                cards[5].setImageResource(generateCardsFromList[5].cardName)
                 cards[5].visibility = View.VISIBLE
                 cardValues[5] = generateCardsFromList[5].value
                 updateScore()
@@ -242,7 +248,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         handler.postDelayed({
             runOnUiThread {
-                cards[6].setImageResource(generateCardsFromList[6].cardName)
                 cards[6].visibility = View.VISIBLE
                 cardValues[6] = generateCardsFromList[6].value
                 updateScore()
@@ -252,7 +257,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         handler.postDelayed({
             runOnUiThread {
-                cards[10].setImageResource(generateCardsFromList[10].cardName)
                 cards[10].visibility = View.VISIBLE
                 cardValues[10] = generateCardsFromList[10].value
                 updateScore()
@@ -261,7 +265,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         handler.postDelayed({
             runOnUiThread {
-                cards[11].setImageResource(generateCardsFromList[11].cardName)
                 cards[11].visibility = View.VISIBLE
                 cardValues[11] = generateCardsFromList[11].value
                 updateScore()
@@ -280,17 +283,15 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             }
         }, 6000)
 
-        cards[2].setImageResource(generateCardsFromList[2].cardName)
-        cards[3].setImageResource(generateCardsFromList[3].cardName)
-        cards[4].setImageResource(generateCardsFromList[4].cardName)
-        cards[7].setImageResource(generateCardsFromList[7].cardName)
-        cards[8].setImageResource(generateCardsFromList[8].cardName)
-        cards[9].setImageResource(generateCardsFromList[9].cardName)
-        cards[10].setImageResource(generateCardsFromList[10].cardName)
-        cards[11].setImageResource(generateCardsFromList[11].cardName)
-        cards[12].setImageResource(generateCardsFromList[12].cardName)
-        cards[13].setImageResource(generateCardsFromList[13].cardName)
-        cards[14].setImageResource(generateCardsFromList[14].cardName)
+
+       // cards[3].setImageResource(generateCardsFromList[3].cardName)
+     //   cards[4].setImageResource(generateCardsFromList[4].cardName)
+       // cards[7].setImageResource(generateCardsFromList[7].cardName)
+      //  cards[8].setImageResource(generateCardsFromList[8].cardName)
+      //  cards[9].setImageResource(generateCardsFromList[9].cardName)
+      //  cards[12].setImageResource(generateCardsFromList[12].cardName)
+       // cards[13].setImageResource(generateCardsFromList[13].cardName)
+      //  cards[14].setImageResource(generateCardsFromList[14].cardName)
     }
 
     /**
@@ -588,7 +589,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     dealer.hitCounter++
                 }
             }
-        }, 3000)
+        }, 2000)
 
         handler.postDelayed({
             runOnUiThread {
@@ -602,7 +603,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     dealer.hitCounter++
                 }
             }
-        }, 5000)
+        }, 3000)
 
         handler.postDelayed({
             runOnUiThread {
@@ -614,6 +615,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 }
                 gameOver()
             }
-        }, 7000)
+        }, 4000)
     }
 }

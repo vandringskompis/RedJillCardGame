@@ -191,8 +191,14 @@ class GameboardActivity : AppCompatActivity() {
 
         generateCardsFromList = CardDeck.cardList.shuffled().take(10)
 
+        var cardIndex = listOf(0,2,3,4,5,6,7,8,9)
+
+        for (index in cardIndex){
+            cards[index].setImageResource(generateCardsFromList[index].cardName)
+
+        }
+
         handler.postDelayed({
-            cards[0].setImageResource(generateCardsFromList[0].cardName)
             cards[0].visibility = View.VISIBLE
             cardValues[0] = generateCardsFromList[0].value
             updateScore()
@@ -207,7 +213,6 @@ class GameboardActivity : AppCompatActivity() {
         }, 2000)
 
         handler.postDelayed({
-            cards[5].setImageResource(generateCardsFromList[5].cardName)
             cards[5].visibility = View.VISIBLE
             cardValues[5] = generateCardsFromList[5].value
             updateScore()
@@ -216,7 +221,6 @@ class GameboardActivity : AppCompatActivity() {
         }, 3000)
 
         handler.postDelayed({
-            cards[6].setImageResource(generateCardsFromList[6].cardName)
             cards[6].visibility = View.VISIBLE
             cardValues[6] = generateCardsFromList[6].value
             updateScore()
@@ -230,13 +234,6 @@ class GameboardActivity : AppCompatActivity() {
             }
 
         }, 4000)
-
-        cards[2].setImageResource(generateCardsFromList[2].cardName)
-        cards[3].setImageResource(generateCardsFromList[3].cardName)
-        cards[4].setImageResource(generateCardsFromList[4].cardName)
-        cards[7].setImageResource(generateCardsFromList[7].cardName)
-        cards[8].setImageResource(generateCardsFromList[8].cardName)
-        cards[9].setImageResource(generateCardsFromList[9].cardName)
     }
 
     /**
