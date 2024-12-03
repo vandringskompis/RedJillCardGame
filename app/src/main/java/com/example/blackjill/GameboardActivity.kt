@@ -24,9 +24,6 @@ class GameboardActivity : AppCompatActivity() {
     var dealerCount = 0
     var cardValues = MutableList(10) { 0 }
 
-    var indexDealerCards = 0
-    var delay = 0
-
     var gameCount = 0
     var winCount = 0
     var lostCount = 0
@@ -88,7 +85,7 @@ class GameboardActivity : AppCompatActivity() {
         hitButton = findViewById(R.id.hit_button)
         hitButton.isEnabled = false
         hitButton.setOnClickListener() {
-            hitButton.isEnabled = true
+            hitButton.isEnabled = false
 
             when (hitCounter) {
                 1 -> {
@@ -115,6 +112,17 @@ class GameboardActivity : AppCompatActivity() {
                     checkWin()
                 }
             }
+
+            val handlerHit = Handler(Looper.getMainLooper())
+
+            handlerHit.postDelayed({
+                if (winnerLoseImg.isVisible){
+                    hitButton.isEnabled = false
+                } else {
+                    hitButton.isEnabled = true
+                }
+            },1000
+            )
         }
         // Stand button, player choose to stop. Dealer's cards will be dealt now.
         // Is also the dealbutton.
@@ -153,46 +161,37 @@ class GameboardActivity : AppCompatActivity() {
 
         generateCardsFromList = CardDeck.cardList.shuffled().take(10)
 
-        val cardIndex = listOf(0, 2, 3, 4, 5, 6, 7, 8, 9)
+        val cardIndex = listOf(0, 1, 5, 6)
 
-        for (index in cardIndex) {
+        fun dealCards(index : Int, delay : Long){
+
+            handler.postDelayed({
+                if (index == 1){
+                    cards[index].setImageResource(R.drawable.card_down_o)
+                    cardValues[index] = 0
+                }else {
+                    cards[index].setImageResource(generateCardsFromList[index].cardName)
+                    cardValues[index] = generateCardsFromList[index].value
+                }
+
+                cards[index].visibility = View.VISIBLE
+                updateScore()
+                checkWin()
+
+                if (index == 6) {
+                    hitButton.isEnabled = !winnerLoseImg.isVisible
+                    standButton.isEnabled = true
+                }
+            }, delay)
+        }
+        for (i in cardIndex.indices) {
+            dealCards(cardIndex[i], (i + 1) * 1000L )
+        }
+
+        val cardSecondIndex = listOf(2, 3, 4, 7, 8, 9)
+        for (index in cardSecondIndex) {
             cards[index].setImageResource(generateCardsFromList[index].cardName)
         }
-        handler.postDelayed({
-            cards[0].visibility = View.VISIBLE
-            cardValues[0] = generateCardsFromList[0].value
-            updateScore()
-            checkWin()
-        }, 1000)
-
-        handler.postDelayed({
-            cards[1].setImageResource(R.drawable.card_down_o)
-            cards[1].visibility = View.VISIBLE
-            updateScore()
-            checkWin()
-        }, 2000)
-
-        handler.postDelayed({
-            cards[5].visibility = View.VISIBLE
-            cardValues[5] = generateCardsFromList[5].value
-            updateScore()
-            checkWin()
-
-        }, 3000)
-
-        handler.postDelayed({
-            cards[6].visibility = View.VISIBLE
-            cardValues[6] = generateCardsFromList[6].value
-            updateScore()
-            checkWin()
-            standButton.isEnabled = true
-
-            if (winnerLoseImg.isVisible) {
-                hitButton.isEnabled = false
-            } else {
-                hitButton.isEnabled = true
-            }
-        }, 4000)
     }
 
     /**
