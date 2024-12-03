@@ -31,10 +31,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     var multiLostCount = 0
     var multiTieCount = 0
 
-    var indexDealerCards = 0
-    var delay = 0
-
-
     lateinit var standButton: Button
     lateinit var hitButton: Button
     lateinit var dealerScoreTextView: TextView
@@ -66,10 +62,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         // GameStatsHandler keeps memory of the stats.
         val stats = GameStatsHandler.getMultiGameStats(this)
-       multiGameCount = stats.multiGameCount
-       multiWinCount = stats.multiWinCount
-       multiLostCount = stats.multiLostCount
-       multiTieCount = stats.multiTieCount
+        multiGameCount = stats.multiGameCount
+        multiWinCount = stats.multiWinCount
+        multiLostCount = stats.multiLostCount
+        multiTieCount = stats.multiTieCount
 
         //Shows who won.
         winnerLoseImgPlayer1 = findViewById(R.id.win_lose_img_player1)
@@ -95,7 +91,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             findViewById(R.id.card_13),
             findViewById(R.id.card_14),
             findViewById(R.id.card_15),
-            )
+        )
 
         //TextViews that show current value of all visible cards
         player1ScoreTextView = findViewById(R.id.player1_score)
@@ -113,7 +109,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         hitButton.isEnabled = false
 
         hitButton.setOnClickListener() {
-
+            hitButton.isEnabled = false
             hitCounter++
 
             when (hitCounter) {
@@ -162,6 +158,16 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     checkWin()
                 }
             }
+            val handlerHit = Handler(Looper.getMainLooper())
+
+            handlerHit.postDelayed(
+                {
+
+                    hitButton.isEnabled =
+                        !(winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible)
+
+                }, 1000
+            )
         }
 
         // Stand button, player choose to stop. Dealer's cards will be dealt now.
@@ -213,73 +219,43 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         generateCardsFromList = CardDeck.cardList.shuffled().take(15)
 
-        val cardIndex = listOf(0, 2, 3, 4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+        val cardIndex = listOf(0, 1, 5, 6, 10, 11)
 
-        for (index in cardIndex){
+        fun dealCards(index: Int, delay: Long) {
+
+            handler.postDelayed({
+                if (index == 1) {
+                    cards[index].setImageResource(R.drawable.card_down_o)
+                    cardValues[index] = 0
+                } else {
+                    cards[index].setImageResource(generateCardsFromList[index].cardName)
+                    cardValues[index] = generateCardsFromList[index].value
+                }
+                cards[index].visibility = View.VISIBLE
+                updateScore()
+                checkWin()
+
+                if (index == 11) {
+                    if (winnerLoseImgPlayer1.isVisible) {
+                        playersTurnTextView.text = getText(R.string.player2_turn)
+                        hitCounter = 3
+                    }
+                    hitButton.isEnabled = true
+                    dealer.hitCounter++
+                    standButton.isEnabled = true
+                    playersTurnCardview.visibility = View.VISIBLE
+                    playersTurnTextView.visibility = View.VISIBLE
+                }
+            }, delay)
+        }
+        for (i in cardIndex.indices) {
+            dealCards(cardIndex[i], (i + 1) * 1000L)
+        }
+
+        val cardSecondIndex = listOf(2, 3, 4, 7, 8, 9, 12, 13, 14)
+        for (index in cardSecondIndex) {
             cards[index].setImageResource(generateCardsFromList[index].cardName)
         }
-        handler.postDelayed({
-            runOnUiThread {
-                cards[0].visibility = View.VISIBLE
-                cardValues[0] = generateCardsFromList[0].value
-                updateScore()
-                checkWin()
-            }
-        }, 1000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                cards[1].setImageResource(R.drawable.card_down_o)
-                cards[1].visibility = View.VISIBLE
-                updateScore()
-                checkWin()
-            }
-        }, 2000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                cards[5].visibility = View.VISIBLE
-                cardValues[5] = generateCardsFromList[5].value
-                updateScore()
-            }
-        }, 3000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                cards[6].visibility = View.VISIBLE
-                cardValues[6] = generateCardsFromList[6].value
-                updateScore()
-                checkWin()
-            }
-        }, 4000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                cards[10].visibility = View.VISIBLE
-                cardValues[10] = generateCardsFromList[10].value
-                updateScore()
-            }
-        }, 5000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                cards[11].visibility = View.VISIBLE
-                cardValues[11] = generateCardsFromList[11].value
-                updateScore()
-                checkWin()
-                standButton.isEnabled = true
-                dealer.hitCounter++
-
-                if (winnerLoseImgPlayer1.isVisible) {
-                    playersTurnTextView.text = getText(R.string.player2_turn)
-                    hitCounter = 3
-                }
-                hitButton.isEnabled = true
-
-                playersTurnCardview.visibility = View.VISIBLE
-                playersTurnTextView.visibility = View.VISIBLE
-            }
-        }, 6000)
     }
 
     /**
@@ -291,7 +267,8 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         val player1Cards =
             listOf(cardValues[5], cardValues[6], cardValues[7], cardValues[8], cardValues[9])
         val player2Cards =
-            listOf(cardValues[10], cardValues[11], cardValues[12], cardValues[13], cardValues[14]
+            listOf(
+                cardValues[10], cardValues[11], cardValues[12], cardValues[13], cardValues[14]
             )
 
         dealer.scoreResult = calculateScore(dealerCards)
@@ -304,6 +281,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         player2ScoreTextView.text = player2.scoreResult.toString()
 
     }
+
     /**
      *  Calculate the score and might recalculate ace's value
      */
@@ -467,7 +445,13 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     private fun gameOver() {
 
         if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
-            GameStatsHandler.saveMultiGameStats(this, multiGameCount, multiWinCount, multiLostCount, multiTieCount)
+            GameStatsHandler.saveMultiGameStats(
+                this,
+                multiGameCount,
+                multiWinCount,
+                multiLostCount,
+                multiTieCount
+            )
             standButton.isEnabled = true
             hitButton.isEnabled = false
             standButton.text = getString(R.string.deal_button)
@@ -502,6 +486,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         }
         gameOver()
     }
+
     /**
      * What happens if checkWin() finds a loosing game.
      */
@@ -558,8 +543,8 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 }
             }, delay)
         }
-        for (i in 0 until 4){
-            dealerPlayCards(i, (i+1) *1000L)
+        for (i in 0 until 4) {
+            dealerPlayCards(i, (i + 1) * 1000L)
         }
     }
 }

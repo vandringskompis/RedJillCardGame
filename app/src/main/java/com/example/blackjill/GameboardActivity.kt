@@ -116,11 +116,9 @@ class GameboardActivity : AppCompatActivity() {
             val handlerHit = Handler(Looper.getMainLooper())
 
             handlerHit.postDelayed({
-                if (winnerLoseImg.isVisible){
-                    hitButton.isEnabled = false
-                } else {
-                    hitButton.isEnabled = true
-                }
+
+                hitButton.isEnabled = !winnerLoseImg.isVisible
+
             },1000
             )
         }
