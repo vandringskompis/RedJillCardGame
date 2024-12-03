@@ -24,6 +24,9 @@ class GameboardActivity : AppCompatActivity() {
     var dealerCount = 0
     var cardValues = MutableList(10) { 0 }
 
+    var indexDealerCards = 0
+    var delay = 0
+
     var gameCount = 0
     var winCount = 0
     var lostCount = 0
@@ -125,58 +128,18 @@ class GameboardActivity : AppCompatActivity() {
             dealerCount++
 
             if (dealerCount == 1) {
-
                 standButton.text = getText(R.string.stands_button)
                 generateCards()
                 updateScore()
                 checkWin()
             }
 
-            val handler = Handler(Looper.getMainLooper())
-            handler.postDelayed({
-                standButton.isEnabled = false
-                hitButton.isEnabled = false
-                if (dealerCount == 2 && dealerScoreResult < 18) {
-                    cards[1].setImageResource(generateCardsFromList[1].cardName)
-                    cardValues[1] = generateCardsFromList[1].value
-                    cards[1].visibility = View.VISIBLE
-                    updateScore()
-                    checkWin()
-                    dealerCount++
-                }
-            }, 1000)
-
-            handler.postDelayed({
-                if (dealerCount == 3 && dealerScoreResult < 18) {
-                    cardValues[2] = generateCardsFromList[2].value
-                    cards[2].visibility = View.VISIBLE
-                    updateScore()
-                    checkWin()
-                    dealerCount++
-                }
-            }, 2000)
-
-            handler.postDelayed({
-                if (dealerCount == 4 && dealerScoreResult < 18) {
-                    cardValues[3] = generateCardsFromList[3].value
-                    cards[3].visibility = View.VISIBLE
-                    updateScore()
-                    checkWin()
-                    dealerCount++
-
-                }
-            }, 3000)
-
-            handler.postDelayed({
-                if (dealerCount == 5 && dealerScoreResult < 18) {
-                    cardValues[4] = generateCardsFromList[4].value
-                    cards[4].visibility = View.VISIBLE
-                    updateScore()
-                    checkWin()
-                }
-            }, 4000)
+            if (dealerCount == 2 && dealerScoreResult < 18) {
+                dealerPlays()
+            }
         }
     }
+
     /**
      * Turn off stand and hit button while cards are dealt and then turned on.
      * 10 cards from the card deck will be generated and the first 3(4)
@@ -190,9 +153,9 @@ class GameboardActivity : AppCompatActivity() {
 
         generateCardsFromList = CardDeck.cardList.shuffled().take(10)
 
-        val cardIndex = listOf(0,2,3,4,5,6,7,8,9)
+        val cardIndex = listOf(0, 2, 3, 4, 5, 6, 7, 8, 9)
 
-        for (index in cardIndex){
+        for (index in cardIndex) {
             cards[index].setImageResource(generateCardsFromList[index].cardName)
         }
         handler.postDelayed({
@@ -231,6 +194,7 @@ class GameboardActivity : AppCompatActivity() {
             }
         }, 4000)
     }
+
     /**
      * Update the TextViews with the current sum of each hand.
      */
@@ -246,6 +210,7 @@ class GameboardActivity : AppCompatActivity() {
         playerScoreResult = calculateScore(playerCards)
         playerScore.text = playerScoreResult.toString()
     }
+
     /**
      *  Calculate the score and might recalculate ace's value
      */
@@ -259,6 +224,7 @@ class GameboardActivity : AppCompatActivity() {
         }
         return scoreTotal
     }
+
     /**
      * Reset the game board
      */
@@ -280,6 +246,7 @@ class GameboardActivity : AppCompatActivity() {
         dealerScoreResult = 0
         updateScore()
     }
+
     /**
      * All combinations to win, lose or tie.
      */
@@ -321,6 +288,7 @@ class GameboardActivity : AppCompatActivity() {
         hitButton.isEnabled = false
         standButton.text = getString(R.string.deal_button)
     }
+
     /**
      * What happens if checkWin() finds a winning game..
      */
@@ -329,12 +297,38 @@ class GameboardActivity : AppCompatActivity() {
         winCount++
         gameOver()
     }
+
     /**
      * What happens if checkWin() finds a loosing game.
      */
     private fun loosing() {
         winnerLoseImg.setImageResource(R.drawable.you_lose)
         lostCount++
-       gameOver()
+        gameOver()
+    }
+
+    private fun dealerPlays() {
+        val handler = Handler(Looper.getMainLooper())
+
+        standButton.isEnabled = false
+        hitButton.isEnabled = false
+
+        fun dealerPlaysCards(indexDealerCards: Int, delay: Long) {
+
+            handler.postDelayed({
+                if (dealerScoreResult < 18) {
+                    cards[indexDealerCards].setImageResource(generateCardsFromList[indexDealerCards].cardName)
+                    cardValues[indexDealerCards] = generateCardsFromList[indexDealerCards].value
+                    cards[indexDealerCards].visibility = View.VISIBLE
+                    updateScore()
+                    checkWin()
+                    dealerCount++
+                }
+            }, delay)
+        }
+        for (i in 1 until 4) {
+            dealerPlaysCards(i, i * 1000L)
+        }
+
     }
 }
