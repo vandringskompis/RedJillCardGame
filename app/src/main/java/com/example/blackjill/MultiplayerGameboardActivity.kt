@@ -160,10 +160,8 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             }
             val handlerHit = Handler(Looper.getMainLooper())
 
-            handlerHit.postDelayed(
-                {
-
-                    hitButton.isEnabled =
+            handlerHit.postDelayed({
+                hitButton.isEnabled =
                         !(winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible)
 
                 }, 1000
