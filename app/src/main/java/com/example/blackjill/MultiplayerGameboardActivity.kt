@@ -60,7 +60,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         playersTurnTextView = findViewById(R.id.players_turn)
         playersTurnCardview = findViewById(R.id.players_turn_cardview)
 
-
         // GameStatsHandler keeps memory of the stats.
         val stats = GameStatsHandler.getMultiGameStats(this)
        multiGameCount = stats.multiGameCount
@@ -71,7 +70,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         //Shows who won.
         winnerLoseImgPlayer1 = findViewById(R.id.win_lose_img_player1)
         winnerLoseImgPlayer2 = findViewById(R.id.win_lose_img_player2)
-
 
         //Backside of card.
         Cards(R.drawable.card_down_o, 0)
@@ -93,7 +91,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             findViewById(R.id.card_13),
             findViewById(R.id.card_14),
             findViewById(R.id.card_15),
-
             )
 
         //TextViews that show current value of all visible cards
@@ -200,22 +197,19 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
     /**
      * Turn off stand and hit button while cards are dealt and then turned on.
-     * 10 cards from the card deck will be generated and the first 3(4)
+     * 10 cards from the card deck will be generated and the first 5(6)
      * cards will be dealt on the table.
      */
-    fun generateCards() {
+    private fun generateCards() {
 
         standButton.isEnabled = false
         hitButton.isEnabled = false
         multiGameCount++
         val handler = Handler(Looper.getMainLooper())
 
-
-
-
         generateCardsFromList = CardDeck.cardList.shuffled().take(15)
 
-        var cardIndex = listOf(0, 2, 3, 4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+        val cardIndex = listOf(0, 2, 3, 4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
 
         for (index in cardIndex){
             cards[index].setImageResource(generateCardsFromList[index].cardName)
@@ -282,22 +276,12 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 playersTurnTextView.visibility = View.VISIBLE
             }
         }, 6000)
-
-
-       // cards[3].setImageResource(generateCardsFromList[3].cardName)
-     //   cards[4].setImageResource(generateCardsFromList[4].cardName)
-       // cards[7].setImageResource(generateCardsFromList[7].cardName)
-      //  cards[8].setImageResource(generateCardsFromList[8].cardName)
-      //  cards[9].setImageResource(generateCardsFromList[9].cardName)
-      //  cards[12].setImageResource(generateCardsFromList[12].cardName)
-       // cards[13].setImageResource(generateCardsFromList[13].cardName)
-      //  cards[14].setImageResource(generateCardsFromList[14].cardName)
     }
 
     /**
      * Update the TextViews with the current sum of each hand.
      */
-    fun updateScore() {
+    private fun updateScore() {
         val dealerCards =
             listOf(cardValues[0], cardValues[1], cardValues[2], cardValues[3], cardValues[4])
         val player1Cards =
@@ -324,7 +308,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     /**
      *  Calculate the score and might recalculate ace's value
      */
-    fun calculateScore(cards: List<Int>): Int {
+    private fun calculateScore(cards: List<Int>): Int {
         var scoreTotal = cards.sum()
         var acesCount = cards.count { it == 11 }
 
@@ -338,7 +322,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     /**
      * Reset the game board
      */
-    fun playAgain() {
+    private fun playAgain() {
 
         //Make all cards invisible
         for (card in cards) {
@@ -363,7 +347,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     /**
      * All combinations to win, lose or tie.
      */
-    fun checkWin() {
+    private fun checkWin() {
 
         if (player1.scoreResult == 21 && cardValues[5] + cardValues[6] == 21) {
             redJill(player1)
@@ -374,11 +358,9 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         }
         if (player1.hitCounter == 3 && player1.scoreResult < 21) {
             winning(player1)
-
         }
         if (player2.hitCounter == 6 && player2.scoreResult < 21) {
             winning(player2)
-
         }
         if (player1.scoreResult > 21) {
             loosing(player1)
@@ -427,7 +409,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
      * What happens if checkWin() finds a winning game..
      */
 
-    fun redJill(player: Player) {
+    private fun redJill(player: Player) {
 
         if (player == player1) {
 
@@ -452,7 +434,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         gameOver()
     }
 
-    fun winning(player: Player) {
+    private fun winning(player: Player) {
 
         if (player == player1) {
             if (winnerLoseImgPlayer1.isVisible) {
@@ -475,7 +457,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             if (winnerLoseImgPlayer2.isVisible) {
                 return
             } else {
-
                 winnerLoseImgPlayer2.setImageResource(R.drawable.you_win)
                 winnerLoseImgPlayer2.visibility = View.VISIBLE
                 multiWinCount++
@@ -484,7 +465,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         gameOver()
     }
 
-    fun gameOver() {
+    private fun gameOver() {
 
         if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
             GameStatsHandler.saveMultiGameStats(this, multiGameCount, multiWinCount, multiLostCount, multiTieCount)
@@ -495,10 +476,9 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             playersTurnCardview.visibility = View.INVISIBLE
             dealer.hitCounter = 0
         }
-
     }
 
-    fun tie(player: Player) {
+    private fun tie(player: Player) {
 
         if (player == player1) {
             if (winnerLoseImgPlayer1.isVisible) {
@@ -523,11 +503,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         }
         gameOver()
     }
-
     /**
      * What happens if checkWin() finds a loosing game.
      */
-    fun loosing(player: Player) {
+    private fun loosing(player: Player) {
 
         if (player == player1) {
 
@@ -556,7 +535,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         }
     }
 
-    fun dealerPlays() {
+    private fun dealerPlays() {
 
         dealer.hitCounter = 3
         val handler = Handler(Looper.getMainLooper())
@@ -593,7 +572,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         handler.postDelayed({
             runOnUiThread {
-
                 if (dealer.hitCounter == 5 && dealer.scoreResult < 18) {
                     cardValues[3] = generateCardsFromList[3].value
                     cards[3].visibility = View.VISIBLE
@@ -612,8 +590,8 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     cards[4].visibility = View.VISIBLE
                     updateScore()
                     checkWin()
+                    gameOver()
                 }
-                gameOver()
             }
         }, 4000)
     }

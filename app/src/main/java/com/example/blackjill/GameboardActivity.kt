@@ -154,10 +154,9 @@ class GameboardActivity : AppCompatActivity() {
                     checkWin()
                     dealerCount++
                 }
-            }, 3000)
+            }, 2000)
 
             handler.postDelayed({
-
                 if (dealerCount == 4 && dealerScoreResult < 18) {
                     cardValues[3] = generateCardsFromList[3].value
                     cards[3].visibility = View.VISIBLE
@@ -166,7 +165,7 @@ class GameboardActivity : AppCompatActivity() {
                     dealerCount++
 
                 }
-            }, 5000)
+            }, 3000)
 
             handler.postDelayed({
                 if (dealerCount == 5 && dealerScoreResult < 18) {
@@ -175,7 +174,7 @@ class GameboardActivity : AppCompatActivity() {
                     updateScore()
                     checkWin()
                 }
-            }, 7000)
+            }, 4000)
         }
     }
     /**
@@ -183,7 +182,7 @@ class GameboardActivity : AppCompatActivity() {
      * 10 cards from the card deck will be generated and the first 3(4)
      * cards will be dealt on the table.
      */
-    fun generateCards() {
+    private fun generateCards() {
 
         standButton.isEnabled = false
         hitButton.isEnabled = false
@@ -191,13 +190,11 @@ class GameboardActivity : AppCompatActivity() {
 
         generateCardsFromList = CardDeck.cardList.shuffled().take(10)
 
-        var cardIndex = listOf(0,2,3,4,5,6,7,8,9)
+        val cardIndex = listOf(0,2,3,4,5,6,7,8,9)
 
         for (index in cardIndex){
             cards[index].setImageResource(generateCardsFromList[index].cardName)
-
         }
-
         handler.postDelayed({
             cards[0].visibility = View.VISIBLE
             cardValues[0] = generateCardsFromList[0].value
@@ -232,14 +229,12 @@ class GameboardActivity : AppCompatActivity() {
             } else {
                 hitButton.isEnabled = true
             }
-
         }, 4000)
     }
-
     /**
      * Update the TextViews with the current sum of each hand.
      */
-    fun updateScore() {
+    private fun updateScore() {
         val dealerCards =
             listOf(cardValues[0], cardValues[1], cardValues[2], cardValues[3], cardValues[4])
         val playerCards =
@@ -254,7 +249,7 @@ class GameboardActivity : AppCompatActivity() {
     /**
      *  Calculate the score and might recalculate ace's value
      */
-    fun calculateScore(cards: List<Int>): Int {
+    private fun calculateScore(cards: List<Int>): Int {
         var scoreTotal = cards.sum()
         var acesCount = cards.count { it == 11 }
 
@@ -267,7 +262,7 @@ class GameboardActivity : AppCompatActivity() {
     /**
      * Reset the game board
      */
-    fun playAgain() {
+    private fun playAgain() {
 
         //Make all cards invisible
         for (card in cards) {
@@ -288,7 +283,7 @@ class GameboardActivity : AppCompatActivity() {
     /**
      * All combinations to win, lose or tie.
      */
-    fun checkWin() {
+    private fun checkWin() {
 
         if (playerScoreResult == 21 && cardValues[5] + cardValues[6] == 21) {
             winning()
@@ -304,7 +299,6 @@ class GameboardActivity : AppCompatActivity() {
             winning()
 
         } else if (playerScoreResult < dealerScoreResult && dealerScoreResult > 17) {
-
             loosing()
 
         } else if (playerScoreResult > dealerScoreResult && dealerScoreResult > 17) {
@@ -313,41 +307,34 @@ class GameboardActivity : AppCompatActivity() {
         } else if (playerScoreResult == dealerScoreResult && dealerScoreResult > 17) {
             winnerLoseImg.setImageResource(R.drawable.push)
             tieCount++
-            gameCount++
-            GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
-            winnerLoseImg.visibility = View.VISIBLE
-            standButton.isEnabled = true
-            hitButton.isEnabled = false
-            standButton.text = getString(R.string.deal_button)
+            gameOver()
         } else {
             return
         }
     }
-    /**
-     * What happens if checkWin() finds a winning game..
-     */
-    fun winning() {
-        winnerLoseImg.setImageResource(R.drawable.you_win)
-        winnerLoseImg.visibility = View.VISIBLE
-        winCount++
+
+    private fun gameOver() {
         gameCount++
         GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
+        winnerLoseImg.visibility = View.VISIBLE
         standButton.isEnabled = true
         hitButton.isEnabled = false
         standButton.text = getString(R.string.deal_button)
-
+    }
+    /**
+     * What happens if checkWin() finds a winning game..
+     */
+    private fun winning() {
+        winnerLoseImg.setImageResource(R.drawable.you_win)
+        winCount++
+        gameOver()
     }
     /**
      * What happens if checkWin() finds a loosing game.
      */
-    fun loosing() {
+    private fun loosing() {
         winnerLoseImg.setImageResource(R.drawable.you_lose)
-        winnerLoseImg.visibility = View.VISIBLE
         lostCount++
-        gameCount++
-        GameStatsHandler.saveGameStats(this, gameCount, winCount, lostCount, tieCount)
-        standButton.isEnabled = true
-        hitButton.isEnabled = false
-        standButton.text = getString(R.string.deal_button)
+       gameOver()
     }
 }
