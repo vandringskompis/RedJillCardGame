@@ -31,6 +31,10 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
     var multiLostCount = 0
     var multiTieCount = 0
 
+    var indexDealerCards = 0
+    var delay = 0
+
+
     lateinit var standButton: Button
     lateinit var hitButton: Button
     lateinit var dealerScoreTextView: TextView
@@ -287,12 +291,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         val player1Cards =
             listOf(cardValues[5], cardValues[6], cardValues[7], cardValues[8], cardValues[9])
         val player2Cards =
-            listOf(
-                cardValues[10],
-                cardValues[11],
-                cardValues[12],
-                cardValues[13],
-                cardValues[14]
+            listOf(cardValues[10], cardValues[11], cardValues[12], cardValues[13], cardValues[14]
             )
 
         dealer.scoreResult = calculateScore(dealerCards)
@@ -542,57 +541,25 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
             return
         }
-        handler.postDelayed({
-            standButton.isEnabled = false
-            hitButton.isEnabled = false
-            if (dealer.hitCounter == 3 && dealer.scoreResult < 18) {
-                cards[1].setImageResource(generateCardsFromList[1].cardName)
-                cardValues[1] = generateCardsFromList[1].value
-                cards[1].visibility = View.VISIBLE
-                updateScore()
-                checkWin()
-                gameOver()
-                dealer.hitCounter++
-            }
-        }, 1000)
+        standButton.isEnabled = false
+        hitButton.isEnabled = false
 
-        handler.postDelayed({
-            runOnUiThread {
-                if (dealer.hitCounter == 4 && dealer.scoreResult < 18) {
+        fun dealerPlayCards(indexDealerCards: Int, delay: Long) {
 
-                    cardValues[2] = generateCardsFromList[2].value
-                    cards[2].visibility = View.VISIBLE
+            handler.postDelayed({
+                if (dealer.hitCounter == indexDealerCards + 2 && dealer.scoreResult < 18) {
+                    cards[indexDealerCards].setImageResource(generateCardsFromList[indexDealerCards].cardName)
+                    cardValues[indexDealerCards] = generateCardsFromList[indexDealerCards].value
+                    cards[indexDealerCards].visibility = View.VISIBLE
                     updateScore()
                     checkWin()
                     gameOver()
                     dealer.hitCounter++
                 }
-            }
-        }, 2000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                if (dealer.hitCounter == 5 && dealer.scoreResult < 18) {
-                    cardValues[3] = generateCardsFromList[3].value
-                    cards[3].visibility = View.VISIBLE
-                    updateScore()
-                    checkWin()
-                    gameOver()
-                    dealer.hitCounter++
-                }
-            }
-        }, 3000)
-
-        handler.postDelayed({
-            runOnUiThread {
-                if (dealer.hitCounter == 6 && dealer.scoreResult < 18) {
-                    cardValues[4] = generateCardsFromList[4].value
-                    cards[4].visibility = View.VISIBLE
-                    updateScore()
-                    checkWin()
-                    gameOver()
-                }
-            }
-        }, 4000)
+            }, delay)
+        }
+        for (i in 0 until 4){
+            dealerPlayCards(i, (i+1) *1000L)
+        }
     }
 }
