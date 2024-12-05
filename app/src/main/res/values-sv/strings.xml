@@ -44,6 +44,9 @@ Resten är samma som kortets siffra.
         \nAntal oavgjorda:  %8$d
 
     </string>
+    <string name="Player1_name">Spelare 1</string>
+    <string name="Player2_name">Spelare 2</string>
+    <string name="dealer_plays">Dealern spelar</string>
     <string name="player1_turn">Spelare 1s tur</string>
     <string name="player2_turn">Spelare 2s tur</string>
 

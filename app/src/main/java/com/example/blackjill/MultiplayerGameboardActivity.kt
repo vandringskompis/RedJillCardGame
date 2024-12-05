@@ -34,6 +34,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
     lateinit var standButton: Button
     lateinit var hitButton: Button
+
     lateinit var dealerScoreTextView: TextView
     lateinit var player1ScoreTextView: TextView
     lateinit var player2ScoreTextView: TextView
@@ -346,6 +347,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         hitCounter = 0
         dealer.hitCounter = 0
         player2.hitCounter = 1
+
         //Score reset
         player1.scoreResult = 0
         player2.scoreResult = 0
@@ -356,7 +358,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
     fun dealerPlays() {
 
-        playersTurnTextView.setText("Dealer plays")
+        playersTurnTextView.setText(R.string.dealer_plays)
         dealer.hitCounter = 3
         val handler = Handler(Looper.getMainLooper())
         if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
