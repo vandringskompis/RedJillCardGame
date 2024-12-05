@@ -237,7 +237,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         standButton.isEnabled = false
         hitButton.isEnabled = false
-        multiGameCount++
+       winningLogicHandler.updateGameCount()
         val handler = Handler(Looper.getMainLooper())
 
         generateCardsFromList = CardDeck.cardList.shuffled().take(15)

@@ -152,9 +152,14 @@ class WinningLogicHandler(
         gameOver()
     }
 
+    fun updateGameCount() {
+        multiGameCount++
+    }
+
     fun gameOver() {
 
         if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
+
             GameStatsHandler.saveMultiGameStats(
                 activity,
                 multiGameCount,
