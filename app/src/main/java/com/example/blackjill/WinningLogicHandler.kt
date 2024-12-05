@@ -17,7 +17,6 @@ class WinningLogicHandler(
     val winnerLoseImgPlayer2: ImageView,
     var playersTurnTextView : TextView,
     val playersTurnCardview : CardView,
-    var hitCounter : Int,
     var multiWinCount : Int,
     var multiGameCount : Int,
     var multiLostCount : Int,
@@ -34,7 +33,7 @@ class WinningLogicHandler(
         if (player1.scoreResult == 21 && cardValues[5] + cardValues[6] == 21) {
             redJill(player1)
         }
-        if (player2.scoreResult == 21 && cardValues[10] + cardValues[11] == 21) {
+        if (player2.scoreResult == 21 && cardValues[10] + cardValues[11] == 21 || player2.hitCounter == 1 && player2.scoreResult == 21) {
             redJill(player2)
             //Charlie-rule
         }
@@ -45,10 +44,10 @@ class WinningLogicHandler(
             winning(player2)
         }
         if (player1.scoreResult > 21) {
-            loosing(player1)
+            losing(player1)
         }
         if (player2.scoreResult > 21) {
-            loosing(player2)
+            losing(player2)
         }
         if (dealer.scoreResult > 21) {
 
@@ -61,25 +60,29 @@ class WinningLogicHandler(
             gameOver()
             return
         }
-        if (player1.scoreResult < dealer.scoreResult && dealer.scoreResult > 17 && dealer.scoreResult < 22) {
-            loosing(player1)
+        if (player1.scoreResult < dealer.scoreResult && dealer.scoreResult > 16 && dealer.scoreResult < 22) {
+            losing(player1)
         }
-        if (player2.scoreResult < dealer.scoreResult && dealer.scoreResult > 17 && dealer.scoreResult < 22) {
-            loosing(player2)
+        if (player2.scoreResult < dealer.scoreResult && dealer.scoreResult > 16 && dealer.scoreResult < 22) {
+            losing(player2)
 
         }
-        if (player1.scoreResult > dealer.scoreResult && dealer.scoreResult > 17 && player1.scoreResult < 22) {
+        if (player1.scoreResult > dealer.scoreResult && dealer.scoreResult > 16 && player1.scoreResult < 22) {
             winning(player1)
 
         }
-        if (player2.scoreResult > dealer.scoreResult && dealer.scoreResult > 17 && player2.scoreResult < 22) {
+        if (player2.scoreResult > dealer.scoreResult && dealer.scoreResult > 16 && player2.scoreResult < 22) {
             winning(player2)
 
         }
-        if (player1.scoreResult == dealer.scoreResult && dealer.scoreResult > 17) {
+        if (dealer.hitCounter == 6 && dealer.scoreResult < 22) {
+            winning(player1)
+            winning(player2)
+        }
+        if (player1.scoreResult == dealer.scoreResult && dealer.scoreResult > 16) {
             tie(player1)
         }
-        if (player2.scoreResult == dealer.scoreResult && dealer.scoreResult > 17) {
+        if (player2.scoreResult == dealer.scoreResult && dealer.scoreResult > 16) {
             tie(player2)
 
         } else {
@@ -101,7 +104,8 @@ class WinningLogicHandler(
                 playersTurnTextView.text = activity.getText(R.string.player2_turn)
                 winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
                 winnerLoseImgPlayer1.visibility = View.VISIBLE
-                hitCounter = 3
+                player2.hitCounter = 3
+               // hitCounter = 3
                 multiWinCount++
             }
         } else if (player == player2) {
@@ -129,7 +133,8 @@ class WinningLogicHandler(
                 gameOver()
             } else {
                 playersTurnTextView.text = activity.getText(R.string.player2_turn)
-                hitCounter = 3
+                player2.hitCounter = 3
+                //hitCounter = 3
                 winnerLoseImgPlayer1.setImageResource(R.drawable.you_win)
                 winnerLoseImgPlayer1.visibility = View.VISIBLE
                 multiWinCount++
@@ -195,7 +200,7 @@ class WinningLogicHandler(
     /**
      * What happens if checkWin() finds a loosing game.
      */
-    private fun loosing(player: Player) {
+    private fun losing(player: Player) {
 
         if (player == player1) {
 
@@ -205,7 +210,8 @@ class WinningLogicHandler(
                 winnerLoseImgPlayer1.setImageResource(R.drawable.you_lose)
                 winnerLoseImgPlayer1.visibility = View.VISIBLE
                 playersTurnTextView.text = activity.getText(R.string.player2_turn)
-                hitCounter = 3
+                player2.hitCounter = 3
+                //hitCounter = 3
                 multiLostCount++
                 gameOver()
             }
@@ -223,6 +229,4 @@ class WinningLogicHandler(
             }
         }
     }
-
-
 }

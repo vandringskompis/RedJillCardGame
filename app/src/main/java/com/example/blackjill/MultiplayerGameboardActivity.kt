@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -48,6 +49,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         player1 = Player(1, 0)
         player2 = Player(1, 0)
         dealer = Player(0, 0)
+
 
         standButton = findViewById(R.id.stand_deal_button)
         hitButton = findViewById(R.id.hit_button)
@@ -101,7 +103,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
             winnerLoseImgPlayer2,
             playersTurnTextView,
             playersTurnCardview,
-            hitCounter,
             multiWinCount,
             multiGameCount,
             multiLostCount,
@@ -128,6 +129,11 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         hitButton.setOnClickListener() {
             hitButton.isEnabled = false
             hitCounter++
+
+            if (player2.hitCounter == 3) {
+                hitCounter = 4
+                player2.hitCounter = 5
+            }
 
             when (hitCounter) {
 
@@ -246,15 +252,23 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                 } else {
                     cards[index].setImageResource(generateCardsFromList[index].cardName)
                     cardValues[index] = generateCardsFromList[index].value
+                    updateScore()
+                    winningLogicHandler.checkWin()
                 }
                 cards[index].visibility = View.VISIBLE
                 updateScore()
                 winningLogicHandler.checkWin()
 
                 if (index == 11) {
+                    cards[index].setImageResource(generateCardsFromList[index].cardName)
+                    cardValues[index] = generateCardsFromList[index].value
+                    updateScore()
+                    winningLogicHandler.checkWin()
+
                     if (winnerLoseImgPlayer1.isVisible) {
                         playersTurnTextView.text = getText(R.string.player2_turn)
-                        hitCounter = 3
+                        player2.hitCounter = 3
+                        // hitCounter = 3
                     }
                     hitButton.isEnabled = true
                     dealer.hitCounter++
@@ -267,6 +281,8 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         for (i in cardIndex.indices) {
             dealCards(cardIndex[i], (i + 1) * 1000L)
         }
+        updateScore()
+        winningLogicHandler.checkWin()
 
         val cardSecondIndex = listOf(2, 3, 4, 7, 8, 9, 12, 13, 14)
         for (index in cardSecondIndex) {
@@ -329,6 +345,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         //Counters reset
         hitCounter = 0
         dealer.hitCounter = 0
+        player2.hitCounter = 1
         //Score reset
         player1.scoreResult = 0
         player2.scoreResult = 0
@@ -339,6 +356,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
     fun dealerPlays() {
 
+        playersTurnTextView.setText("Dealer plays")
         dealer.hitCounter = 3
         val handler = Handler(Looper.getMainLooper())
         if (winnerLoseImgPlayer1.isVisible && winnerLoseImgPlayer2.isVisible) {
@@ -350,7 +368,7 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
         fun dealerPlayCards(indexDealerCards: Int, delay: Long) {
 
             handler.postDelayed({
-                if (dealer.hitCounter == indexDealerCards + 2 && dealer.scoreResult < 18) {
+                if (dealer.hitCounter == indexDealerCards + 2 && dealer.scoreResult < 17) {
                     cards[indexDealerCards].setImageResource(generateCardsFromList[indexDealerCards].cardName)
                     cardValues[indexDealerCards] = generateCardsFromList[indexDealerCards].value
                     cards[indexDealerCards].visibility = View.VISIBLE
@@ -358,10 +376,12 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
                     winningLogicHandler.checkWin()
                     winningLogicHandler.gameOver()
                     dealer.hitCounter++
+
+                    Log.d("!!!", " hitCounter dealer = ${dealer.hitCounter}")
                 }
             }, delay)
         }
-        for (i in 0 until 4) {
+        for (i in 0 until 5) {
             dealerPlayCards(i, (i + 1) * 1000L)
         }
     }
