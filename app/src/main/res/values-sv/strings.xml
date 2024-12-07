@@ -4,8 +4,8 @@
     <string name="rules">
         \n
         Målet med spelet är att få värdet på dina kort att bli 21, men inte högre. Du kan välja att antingen
-        stanna innan eller på 21, eller dra nytt kort. Du kommer spela mot dealern. Charlieregeln tillämpas, detta betyder att
-        om du har 5 kort på din hand och din total är mindre än 21 så vinner du.
+        stanna innan eller på 21, eller dra nytt kort. Du kommer spela mot dealern. Min "Charlieregeln" tillämpas, detta betyder att
+        om du har 5 kort på din hand och din total är mindre än 22 så vinner du.
 
 \n\n
 Kortens värden:\n

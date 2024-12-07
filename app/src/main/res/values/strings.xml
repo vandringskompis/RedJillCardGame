@@ -4,8 +4,8 @@
     <string name="rules">
         \n
 The goal is to get your cards to 21, but not past. You can either stand if you want to stop
-        before 21 or hit and be dealt a new card. Your will play against the dealer. Charlie-rule
-        applies, meaning, if you have 5 cards on your hand and your total is less than 21, you win.
+        before 21 or hit and be dealt a new card. Your will play against the dealer. My "Charlie-rule"
+        applies, meaning, if you have 5 cards on your hand and your total is less than 22, you win.
 \n\n
 Card Values:\n
 A = 1 or 11\n

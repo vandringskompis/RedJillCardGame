@@ -37,10 +37,11 @@ class WinningLogicHandler(
             redJill(player2)
             //Charlie-rule
         }
-        if (player1.hitCounter == 3 && player1.scoreResult < 21) {
+        if (player1.hitCounter == 3 && player1.scoreResult < 22) {
             winning(player1)
         }
-        if (player2.hitCounter == 6 && player2.scoreResult < 21) {
+
+        if (player2.hitCounter == 6 && player2.scoreResult < 22) {
             winning(player2)
         }
         if (player1.scoreResult > 21) {

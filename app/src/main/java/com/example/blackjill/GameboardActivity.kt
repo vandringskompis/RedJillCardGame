@@ -253,7 +253,7 @@ class GameboardActivity : AppCompatActivity() {
             winning()
 
             //Charlie-rule
-        } else if (hitCounter == 4 && playerScoreResult < 21) {
+        } else if (hitCounter == 4 && playerScoreResult < 22) {
             winning()
 
         } else if (playerScoreResult > 21) {
