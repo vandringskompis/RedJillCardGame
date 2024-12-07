@@ -312,7 +312,6 @@ class MultiplayerGameboardActivity : AppCompatActivity() {
 
         player2.scoreResult = calculateScore(player2Cards)
         player2ScoreTextView.text = player2.scoreResult.toString()
-
     }
 
     /**
